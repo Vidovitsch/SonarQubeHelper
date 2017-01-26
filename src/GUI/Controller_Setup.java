@@ -60,6 +60,7 @@ public class Controller_Setup implements Initializable {
         
         //Give value to the field in the GUI
         txtSQScanner.setText(paths[1]);
+        setEventHandlers();
     }
     
     /**
@@ -89,5 +90,14 @@ public class Controller_Setup implements Initializable {
     
     private boolean validateFields() {
         return !(txtSQRoot.getText().isEmpty() || txtSQScanner.getText().isEmpty());
+    }
+    
+     private void setEventHandlers() {
+        txtSQRoot.textProperty().addListener((observable, oldValue, newValue) -> {
+            paths[0] = newValue;
+        });
+        txtSQScanner.textProperty().addListener((observable, oldValue, newValue) -> {
+            paths[1] = newValue;
+        });
     }
 }

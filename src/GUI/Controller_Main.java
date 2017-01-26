@@ -72,9 +72,16 @@ public class Controller_Main implements Initializable {
         
         //Give value to the field in the GUI
         txtAdd.setText(path);
+        setEventHandlers();
     }
     
     private boolean validateFields() {
         return !txtAdd.getText().isEmpty();
+    }
+    
+    private void setEventHandlers() {
+        txtAdd.textProperty().addListener((observable, oldValue, newValue) -> {
+            path = newValue;
+        });
     }
 }
