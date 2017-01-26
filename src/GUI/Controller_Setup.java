@@ -27,6 +27,7 @@ public class Controller_Setup implements Initializable {
     
     /**
      * Initializes the controller class.
+     * 
      * @param url
      * @param rb
      */

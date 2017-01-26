@@ -34,6 +34,7 @@ public class SonarQubeHelper extends Application {
      * Opens the setup screen.
      * This method only gets called when the button 'settings' has been pressed
      * or when it's the first time this application gets started.
+     * 
      * @throws IOException 
      */
     public void openSetupScreen() throws IOException {
@@ -48,6 +49,7 @@ public class SonarQubeHelper extends Application {
     
     /**
      * Opens the main screen.
+     * 
      * @throws IOException 
      */
     public void openMainScreen() throws IOException {
