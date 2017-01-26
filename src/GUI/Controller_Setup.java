@@ -88,6 +88,6 @@ public class Controller_Setup implements Initializable {
     }
     
     private boolean validateFields() {
-        return !(paths[0].isEmpty() || paths[1].isEmpty());
+        return !(txtSQRoot.getText().isEmpty() || txtSQScanner.getText().isEmpty());
     }
 }

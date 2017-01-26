@@ -35,7 +35,8 @@ public class Controller_Main implements Initializable {
     @FXML
     private ProgressBar pbProgress;
     
-    @FXML void setProjectRoot() {
+    @FXML
+    public void setProjectRoot() {
         path = sqHelper.openFileExplorer("Select the SonarQube root folder");
         
         //Give value to the field in the GUI
@@ -74,6 +75,6 @@ public class Controller_Main implements Initializable {
     }
     
     private boolean validateFields() {
-        return !path.isEmpty();
+        return !txtAdd.getText().isEmpty();
     }
 }
