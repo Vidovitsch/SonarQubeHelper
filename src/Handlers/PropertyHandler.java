@@ -12,6 +12,7 @@ import java.util.Properties;
  */
 public class PropertyHandler {
 
+    private final String propertySQFileName = "sonar-project.properties";
     private final String propertyFileName = "sq_helper.properties";
     private final String rootKey = "sqRoot";
     private final String scannerKey = "sqScanner";
@@ -37,16 +38,12 @@ public class PropertyHandler {
      */
     public String[] getSQRootsFromPropertyFile() throws IOException {
         String[] paths = new String[2];
-        if (checkForPropertyFile()) {
-            Properties sq_helper = new Properties();
-            try (FileInputStream input = new FileInputStream(propertyFileName)) {
-                sq_helper.load(input);
-                paths[0] = sq_helper.getProperty(rootKey);
-                paths[1] = sq_helper.getProperty(scannerKey);
-            }
-        } else {
-            paths[0] = "";
-            paths[1] = "";
+        Properties sq_helper = new Properties();
+
+        try (FileInputStream input = new FileInputStream(propertyFileName)) {
+            sq_helper.load(input);
+            paths[0] = sq_helper.getProperty(rootKey);
+            paths[1] = sq_helper.getProperty(scannerKey);
         }
         return paths;
     }
@@ -75,10 +72,13 @@ public class PropertyHandler {
      * @throws IOException 
      */
     public void savePropertyFileSQRoots(String[] paths) throws IOException {
+        Properties sq_helper = new Properties();
+        try (FileInputStream input = new FileInputStream(propertyFileName)) {
+            sq_helper.load(input);
+        }
         try (FileOutputStream output = new FileOutputStream(propertyFileName)) {
-            Properties sq_helper = new Properties();
-            sq_helper.setProperty(rootKey, paths[0]);
-            sq_helper.setProperty(scannerKey, paths[1]);
+            sq_helper.replace(rootKey, paths[0]);
+            sq_helper.replace(scannerKey, paths[1]);
             sq_helper.store(output, null);
         }
     }
@@ -90,10 +90,47 @@ public class PropertyHandler {
      * @throws java.io.IOException 
      */
     public void savePropertyFilePRoot(String path) throws IOException {
-         try (FileOutputStream output = new FileOutputStream(propertyFileName)) {
-            Properties sq_helper = new Properties();
-            sq_helper.setProperty(projectKey, path);
+        Properties sq_helper = new Properties();
+        try (FileInputStream input = new FileInputStream(propertyFileName)) {
+            sq_helper.load(input);
+        }
+        try (FileOutputStream output = new FileOutputStream(propertyFileName)) {
+            sq_helper.replace(projectKey, path);
             sq_helper.store(output, null);
         }
+    }
+    
+    public void createSQPropertyFile(String path) throws IOException {
+        String projectName = getProjectName(path);
+        try (FileOutputStream output = new FileOutputStream(path + "\\" + propertySQFileName)) {
+            Properties sonar_project = new Properties();
+            sonar_project.setProperty("sonar.projectKey", projectName);
+            sonar_project.setProperty("sonar.projectName", projectName);
+            sonar_project.setProperty("sonar.projectVersion", "1.0");
+            sonar_project.setProperty("sonar.sources", "./src");
+            sonar_project.store(output, null);
+        }
+    }
+    
+    public void createPropertyFile() throws IOException {
+        try (FileOutputStream output = new FileOutputStream(propertyFileName)) {
+            Properties sq_helper = new Properties();
+            sq_helper.setProperty(rootKey, "");
+            sq_helper.setProperty(scannerKey, "");
+            sq_helper.setProperty(projectKey, "");
+            sq_helper.store(output, null);
+        }
+    }
+    
+    public boolean checkForSQPeropertyFile(String path) {
+        File propertyFile = new File(path + "\\" + propertySQFileName);
+        return propertyFile.exists();
+    }
+    
+    private String getProjectName(String path) {
+        String newPath = path.replace("\\", ";");
+        String[] values = newPath.split(";");
+        int maxIndex = values.length - 1;
+        return values[maxIndex];
     }
 }

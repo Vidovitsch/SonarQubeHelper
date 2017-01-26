@@ -1,6 +1,5 @@
 package GUI;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -11,7 +10,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.stage.DirectoryChooser;
 
 /**
  * FXML Controller class
@@ -60,7 +58,6 @@ public class Controller_Setup implements Initializable {
         
         //Give value to the field in the GUI
         txtSQScanner.setText(paths[1]);
-        setEventHandlers();
     }
     
     /**
@@ -86,13 +83,14 @@ public class Controller_Setup implements Initializable {
         //Give values to the fields in the GUI
         txtSQRoot.setText(paths[0]);
         txtSQScanner.setText(paths[1]);
+        setEventHandlers();
     }
     
     private boolean validateFields() {
         return !(txtSQRoot.getText().isEmpty() || txtSQScanner.getText().isEmpty());
     }
     
-     private void setEventHandlers() {
+    private void setEventHandlers() {
         txtSQRoot.textProperty().addListener((observable, oldValue, newValue) -> {
             paths[0] = newValue;
         });

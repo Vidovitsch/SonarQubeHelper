@@ -33,11 +33,17 @@ public class Controller_Main implements Initializable {
     private TextField txtAdd;
     
     @FXML
-    private ProgressBar pbProgress;
+    public void start() {
+        if (validateFields()) {
+            sqHelper.startScanning(path);
+        } else {
+            sqHelper.showWarningDialog("Select a project root before scanning");
+        }
+    }
     
     @FXML
     public void setProjectRoot() {
-        path = sqHelper.openFileExplorer("Select the SonarQube root folder");
+        path = sqHelper.openFileExplorer("Select your project's root folder");
         
         //Give value to the field in the GUI
         txtAdd.setText(path);
