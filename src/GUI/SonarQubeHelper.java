@@ -3,10 +3,14 @@ package GUI;
 import Handlers.PropertyHandler;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -24,7 +28,6 @@ public class SonarQubeHelper extends Application {
     public void start(Stage stage) throws Exception {
         this.stage = stage;
         this.pHandler = new PropertyHandler();
-        
         if (pHandler.checkForPropertyFile()) {
             openMainScreen();
         } else {
@@ -48,7 +51,7 @@ public class SonarQubeHelper extends Application {
         stage.show();
         Controller_Setup setupController = (Controller_Setup) loader.getController();
         setupController.setSQHelper(this);
-        setupController.setValues("", "");
+        setupController.setValues(pHandler.getSQRootsFromPropertyFile());
     }
     
     /**
@@ -65,7 +68,7 @@ public class SonarQubeHelper extends Application {
         stage.show();
         Controller_Main mainController = (Controller_Main) loader.getController();
         mainController.setSQHelper(this);
-        mainController.setValues("");
+        mainController.setValues(pHandler.getProjectRootFromPropertyFile());
     }
     
     /**
@@ -78,6 +81,21 @@ public class SonarQubeHelper extends Application {
         chooser.setTitle(title);
         File selectedDirectory = chooser.showDialog(stage);
         return selectedDirectory.getPath();
+    }
+    
+    public void saveSetup(String[] paths) {
+        try {
+            pHandler.savePropertyFileSQRoots(paths);
+        } catch (IOException ex) {
+            Logger.getLogger(SonarQubeHelper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void showWarningDialog(String header) {
+        Alert warning = new Alert(AlertType.WARNING);
+        warning.setTitle("Warning Dialog");
+        warning.setHeaderText(header);
+        warning.setContentText(null);
     }
     
     /**

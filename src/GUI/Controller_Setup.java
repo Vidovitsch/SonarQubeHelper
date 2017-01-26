@@ -1,8 +1,11 @@
 package GUI;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -30,21 +33,33 @@ public class Controller_Setup implements Initializable {
     private TextField txtSQRoot, txtSQScanner;
     
     @FXML
+    public void save() {
+        if (validateFields()) {
+            sqHelper.saveSetup(paths);
+            try {
+                sqHelper.openMainScreen();
+            } catch (IOException ex) {
+                Logger.getLogger(Controller_Setup.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            sqHelper.showWarningDialog("Select both roots before saving");
+        }
+    }
+    
+    @FXML
     public void setSQRoot() {
-        String path = sqHelper.openFileExplorer("Select the SonarQube root folder");
-        paths[0] = path;
+        paths[0] = sqHelper.openFileExplorer("Select the SonarQube root folder");
         
         //Give value to the field in the GUI
-        txtSQRoot.setText(path);
+        txtSQRoot.setText(paths[0]);
     }
     
     @FXML
     public void setSQScanner() {
-        String path = sqHelper.openFileExplorer("Select the SonarQube scanner folder");
-        paths[1] = path;
+        paths[1] = sqHelper.openFileExplorer("Select the SonarQube scanner folder");
         
         //Give value to the field in the GUI
-        txtSQScanner.setText(path);
+        txtSQScanner.setText(paths[1]);
     }
     
     /**
@@ -62,13 +77,17 @@ public class Controller_Setup implements Initializable {
         this.sqHelper = sqHelper;
     }
     
-    public void setValues(String sqRoot, String sqScanner) {
+    public void setValues(String[] paths) {
         this.paths = new String[2];
-        paths[0] = sqRoot;
-        paths[1] = sqScanner;
+        this.paths[0] = paths[0];
+        this.paths[1] = paths[1];
         
         //Give values to the fields in the GUI
-        txtSQRoot.setText(sqRoot);
-        txtSQScanner.setText(sqScanner);
+        txtSQRoot.setText(paths[0]);
+        txtSQScanner.setText(paths[1]);
+    }
+    
+    private boolean validateFields() {
+        return !(paths[0].isEmpty() || paths[1].isEmpty());
     }
 }
