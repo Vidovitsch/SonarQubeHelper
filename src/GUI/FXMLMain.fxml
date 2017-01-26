@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="167.0" prefWidth="407.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller_Main">
+<AnchorPane id="AnchorPane" prefHeight="186.0" prefWidth="407.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller_Main">
    <children>
       <Label fx:id="lblHeader" layoutX="28.0" layoutY="24.0" text="SonarQube helper">
          <font>

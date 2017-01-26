@@ -55,6 +55,8 @@ public class ProcedureTask extends Task {
     
     private boolean startSonarScanner() {
         try {
+            showInfoDialog("This scan can take several seconds");
+            
             String command = "cd " + projectPath + " && " + sqScanner + "\\bin\\sonar-scanner";
             ProcessBuilder pBuilder = new ProcessBuilder("cmd.exe", "/c", command);
             Process scanProject = pBuilder.start();
@@ -62,6 +64,8 @@ public class ProcedureTask extends Task {
             
             String l;
             while ((l = reader.readLine()) != null) { }
+            cancelInfoDialog();
+            
             openBrowser();
             return true;
         }
@@ -77,6 +81,24 @@ public class ProcedureTask extends Task {
             @Override
             public void run() {
                 sqHelper.showErrorDialog(header);
+            }
+        });
+    }
+    
+    private void showInfoDialog(String header) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                sqHelper.showInfoDialog(header);
+            }
+        });
+    }
+    
+    private void cancelInfoDialog() {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                sqHelper.cancelInfoDialog();
             }
         });
     }
