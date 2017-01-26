@@ -1,12 +1,14 @@
 package GUI;
 
 import Handlers.PropertyHandler;
+import java.io.File;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
 /**
@@ -45,6 +47,8 @@ public class SonarQubeHelper extends Application {
         stage.setTitle("Setup");
         stage.show();
         Controller_Setup setupController = (Controller_Setup) loader.getController();
+        setupController.setSQHelper(this);
+        setupController.setValues("", "");
     }
     
     /**
@@ -60,6 +64,20 @@ public class SonarQubeHelper extends Application {
         stage.setTitle("Main");
         stage.show();
         Controller_Main mainController = (Controller_Main) loader.getController();
+        mainController.setSQHelper(this);
+        mainController.setValues("");
+    }
+    
+    /**
+     * Opens the file explorer.
+     * @param title
+     * @return The file path of the selected file
+     */
+    public String openFileExplorer(String title) {
+        DirectoryChooser chooser = new DirectoryChooser();
+        chooser.setTitle(title);
+        File selectedDirectory = chooser.showDialog(stage);
+        return selectedDirectory.getPath();
     }
     
     /**

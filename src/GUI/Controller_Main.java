@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -45,7 +46,7 @@ public class Controller_Main implements Initializable {
         this.sqHelper = sqHelper;
     }
     
-    public void setValues(String sqRoot, String sqScanner) {
+    public void setValues(String sqProjectRoot) {
         
     }
 }
