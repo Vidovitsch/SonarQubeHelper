@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="177.0" prefWidth="366.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller_Main">
+<AnchorPane id="AnchorPane" prefHeight="167.0" prefWidth="407.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller_Main">
    <children>
       <Label fx:id="lblHeader" layoutX="28.0" layoutY="24.0" text="SonarQube helper">
          <font>
@@ -16,9 +16,9 @@
       </Label>
       <Label fx:id="lblProjectRoot" layoutX="28.0" layoutY="64.0" text="Project root" />
       <Button fx:id="btnAdd" layoutX="28.0" layoutY="86.0" mnemonicParsing="false" onAction="#setProjectRoot" text="Add" />
-      <TextField fx:id="txtAdd" layoutX="80.0" layoutY="86.0" prefHeight="25.0" prefWidth="250.0" />
-      <Button fx:id="btnScan" layoutX="243.0" layoutY="118.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="87.0" text="Start Scan" />
-      <Button fx:id="btnSettings" layoutX="146.0" layoutY="118.0" mnemonicParsing="false" onAction="#openSetupScreen" prefHeight="25.0" prefWidth="87.0" text="Settings" />
-      <ProgressBar fx:id="pbProgress" layoutY="163.0" prefHeight="18.0" prefWidth="366.0" progress="0.0" />
+      <TextField fx:id="txtAdd" layoutX="80.0" layoutY="86.0" prefHeight="25.0" prefWidth="300.0" />
+      <Button fx:id="btnScan" layoutX="293.0" layoutY="118.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="87.0" text="Start Scan" />
+      <Button fx:id="btnSettings" layoutX="189.0" layoutY="118.0" mnemonicParsing="false" onAction="#openSetupScreen" prefHeight="25.0" prefWidth="87.0" text="Settings" />
+      <ProgressBar fx:id="pbProgress" layoutY="166.0" prefHeight="17.0" prefWidth="407.0" progress="0.0" />
    </children>
 </AnchorPane>
