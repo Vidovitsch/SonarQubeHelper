@@ -1,13 +1,15 @@
 package Models;
 
+import javafx.concurrent.Task;
+
 /**
  *
  * @author David
  */
-public class ProcedureTask implements Runnable{
+public class ProcedureTask extends Task {
 
     @Override
-    public void run() {
+    protected Object call() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

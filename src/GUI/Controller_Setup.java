@@ -14,6 +14,8 @@ import javafx.scene.control.Label;
  */
 public class Controller_Setup implements Initializable {
     
+    private SonarQubeHelper sqHelper;
+    
     @FXML
     private Label label;
     
@@ -23,9 +25,21 @@ public class Controller_Setup implements Initializable {
         label.setText("Hello World!");
     }
     
+    /**
+     * Initializes the controller class.
+     * @param url
+     * @param rb
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
     
+    public void setSQHelper(SonarQubeHelper sqHelper) {
+        this.sqHelper = sqHelper;
+    }
+    
+    public void setValues(String projectRoot) {
+        
+    }
 }
