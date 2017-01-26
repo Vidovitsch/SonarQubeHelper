@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="232.0" prefWidth="366.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="sonarqubehelper.FXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="232.0" prefWidth="366.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="GUI.Controller_Setup">
    <children>
       <TextField fx:id="txtSQRoot" layoutX="80.0" layoutY="88.0" prefHeight="25.0" prefWidth="250.0" />
       <Label fx:id="lblHeader" layoutX="28.0" layoutY="24.0" text="Setup SonarQube files">
