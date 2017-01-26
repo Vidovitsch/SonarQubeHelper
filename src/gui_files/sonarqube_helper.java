@@ -1,8 +1,7 @@
-package GUI;
+package gui_files;
 
-import Handlers.PropertyHandler;
-import Models.ProcedureTask;
-import com.sun.deploy.ui.ProgressDialog;
+import handlers.PropertyHandler;
+import models.ProcedureTask;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -13,17 +12,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
  *
  * @author David
  */
-public class SonarQubeHelper extends Application {
+public class sonarqube_helper extends Application {
     
     private Stage stage;
     private PropertyHandler pHandler;
@@ -44,6 +41,7 @@ public class SonarQubeHelper extends Application {
 
     @Override
     public void stop() {
+        //Calling stop instead of interrupt; interrupting won't stop running cmd processes, while stop does.
         procedure.stop();
     }
     
@@ -61,7 +59,7 @@ public class SonarQubeHelper extends Application {
         stage.setScene(scene);
         stage.setTitle("Setup");
         stage.show();
-        Controller_Setup setupController = (Controller_Setup) loader.getController();
+        controller_setup setupController = (controller_setup) loader.getController();
         setupController.setSQHelper(this);
         setupController.setValues(pHandler.getSQRootsFromPropertyFile());
     }
@@ -78,13 +76,14 @@ public class SonarQubeHelper extends Application {
         stage.setScene(scene);
         stage.setTitle("Main");
         stage.show();
-        Controller_Main mainController = (Controller_Main) loader.getController();
+        controller_main mainController = (controller_main) loader.getController();
         mainController.setSQHelper(this);
         mainController.setValues(pHandler.getProjectRootFromPropertyFile());
     }
     
     /**
      * Opens the file explorer.
+     * 
      * @param title
      * @return The file path of the selected file
      */
@@ -95,14 +94,25 @@ public class SonarQubeHelper extends Application {
         return selectedDirectory.getPath();
     }
     
+    /**
+     * Saves the paths set in the setup screen.
+     * 
+     * @param paths 
+     */
     public void saveSetup(String[] paths) {
         try {
             pHandler.savePropertyFileSQRoots(paths);
         } catch (IOException ex) {
-            Logger.getLogger(SonarQubeHelper.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(sonarqube_helper.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
+    /**
+     * Starts the scanning of the set project.
+     * First a sonarqube property file is created if it doesn't already exist.
+     * 
+     * @param path 
+     */
     public void startScanning(String path) {
         try {
             pHandler.savePropertyFilePRoot(path);
@@ -113,10 +123,15 @@ public class SonarQubeHelper extends Application {
                     pHandler.getProjectRootFromPropertyFile()));
             procedure.start();
         } catch (IOException ex) {
-            Logger.getLogger(SonarQubeHelper.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(sonarqube_helper.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
+    /**
+     * Shows a warning dialog with a set header.
+     * 
+     * @param header 
+     */
     public void showWarningDialog(String header) {
         Alert warning = new Alert(AlertType.WARNING);
         warning.setTitle("Warning Dialog");
@@ -125,6 +140,11 @@ public class SonarQubeHelper extends Application {
         warning.showAndWait();
     }
     
+    /**
+     * Shows a error dialog with a set header.
+     * 
+     * @param header 
+     */
     public void showErrorDialog(String header) {
         Alert error = new Alert(AlertType.ERROR);
         error.setTitle("Error Dialog");
@@ -133,6 +153,11 @@ public class SonarQubeHelper extends Application {
         error.showAndWait();
     }
     
+    /**
+     * Shows a information dialog with a set header.
+     * 
+     * @param header 
+     */
     public void showInfoDialog(String header) {
         info = new Alert(AlertType.INFORMATION);
         info.setTitle("Process Running");
@@ -142,6 +167,9 @@ public class SonarQubeHelper extends Application {
         info.show();
     }
     
+    /**
+     * Cancels the shown information dialog.
+     */
     public void cancelInfoDialog() {
         info.close();
     }
