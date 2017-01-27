@@ -41,8 +41,17 @@ public class ProcedureTask extends Task {
     
     @Override
     protected Object call() throws Exception {
-        startSQServer();
-        startSonarScanner();
+        if (startSQServer()) {
+            if (startSonarScanner()) {
+                openBrowser();
+            } else {
+                cancelInfoDialog();
+                showErrorDialog("Scanning failed");
+            }
+        } else {
+            cancelInfoDialog();
+            showErrorDialog("The SonarQube server couldn't be started (localhost:9000)");
+        }
         return null;
     }
     
@@ -61,12 +70,13 @@ public class ProcedureTask extends Task {
             //Uses the scanner to check for keyword 'ERROR'
             Scanner scanner = new Scanner(startServer.getInputStream());
             while (scanner.hasNext()) {
-                if (scanner.next().contains("ERROR")) break;
+                if (scanner.next().contains("ERROR")) {
+                    break;
+                }
             }
             return true;
         } catch (IOException ex) {
             Logger.getLogger(ProcedureTask.class.getName()).log(Level.SEVERE, null, ex);
-            showErrorDialog("The SonarQube server couldn't be started (localhost:9000)");
             return false;
         }
     }
@@ -88,12 +98,16 @@ public class ProcedureTask extends Task {
             
             //Creating a reader to make sure the command is executed properly before proceding
             BufferedReader reader = new BufferedReader(new InputStreamReader(scanProject.getInputStream()));
-            String l;
-            while ((l = reader.readLine()) != null) { }
+            String line = "";
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+                if (line.contains("FAILURE")) {
+                    return false;
+                }
+            }
             
-            //Cancels the dialog shown to the user and opens the browser on localhost:9000
+            //Cancels the dialog shown
             cancelInfoDialog();
-            openBrowser();
             return true;
         }
         catch (IOException ex) {

@@ -151,6 +151,9 @@ public class sonarqube_helper extends Application {
         error.setHeaderText(null);
         error.setContentText(header);
         error.showAndWait();
+        
+        //Interrupts running thread
+        procedure.interrupt();
     }
     
     /**
