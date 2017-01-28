@@ -1,7 +1,7 @@
 package gui_files;
 
 import handlers.PropertyHandler;
-import models.ProcedureTask;
+import models.ScannerTask;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -119,7 +119,7 @@ public class sonarqube_helper extends Application {
             if (!pHandler.checkForSQPeropertyFile(path)) {
                 pHandler.createSQPropertyFile(path);
             }
-            procedure = new Thread(new ProcedureTask(this, pHandler.getSQRootsFromPropertyFile(),
+            procedure = new Thread(new ScannerTask(this, pHandler.getSQRootsFromPropertyFile()[0],
                     pHandler.getProjectRootFromPropertyFile()));
             procedure.start();
         } catch (IOException ex) {
