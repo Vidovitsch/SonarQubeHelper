@@ -54,7 +54,7 @@ public class ScannerTask implements Runnable {
      */
     private boolean startSonarScanner() {
         try {
-            showErrorDialog("Scanning project: This can take several seconds");
+            showInfoDialog("Scanning project: This can take several seconds");
             
             //Creating the correct command and executes it
             String command = "cd " + projectPath + " && " + sqScanner + "\\bin\\sonar-scanner";

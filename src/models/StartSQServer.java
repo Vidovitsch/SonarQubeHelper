@@ -1,9 +1,12 @@
 package models;
 
 import gui_files.sonarqube_helper;
-import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -15,16 +18,17 @@ import javafx.application.Platform;
 public class StartSQServer implements Runnable {
 
     private sonarqube_helper sqHelper;
-    private String sqRoot;
+    private final static String batchFile = "startSQServer.bat";
     
     public  StartSQServer(sonarqube_helper sqHelper, String sqRoot) {
-        this.sqRoot = sqRoot;
         this.sqHelper = sqHelper;
+        initBatchFile(sqRoot);
     }
     
     @Override
     public void run() {
-       
+        startSQServer();
+        startConnectionCheck();
     }
     
     /**
@@ -37,19 +41,10 @@ public class StartSQServer implements Runnable {
     private boolean startSQServer() {
         try {
             //Show dialog to the user
-            showInfoDialog("This scan can take several seconds");
+            showInfoDialog("Starting SonarQube server: This can take a while");
             
             //Creating the correct command and executes it 
-            Process startServer = Runtime.getRuntime().exec(sqRoot + "\\bin\\windows-x86-64\\StartSonar.bat");
-            //startServer.getErrorStream();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(startServer.getErrorStream()));
-            String line = "";
-            while ((line = reader.readLine()) != null) {
-                System.out.println(line);
-                if (line.contains("ERROR")) {
-                    break;
-                }
-            }
+            Runtime.getRuntime().exec(batchFile);
 
             return true;
         } catch (IOException ex) {
@@ -57,7 +52,7 @@ public class StartSQServer implements Runnable {
             return false;
         }
     }
-    
+
     /**
      * Shows on the JavaFX thread an information dialog
      * 
@@ -82,5 +77,39 @@ public class StartSQServer implements Runnable {
                 sqHelper.cancelInfoDialog();
             }
         });
+    }
+    
+    private void initBatchFile(String sqRoot) {
+        String command = sqRoot + "\\bin\\windows-x86-64\\StartSonar.bat";
+        try (FileWriter writer = new FileWriter(batchFile)) {
+            writer.write(command);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(StartSQServer.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(StartSQServer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void startConnectionCheck() {
+        System.out.println("Starting connection timer");
+        Timer connectionTimer = new Timer();
+        connectionTimer.schedule(new connectionTask(connectionTimer), 0, 500);
+    }
+    
+    private class connectionTask extends TimerTask {
+        private Timer timer;
+        
+        public connectionTask(Timer timer) {
+            this.timer = timer;
+        }
+        
+        @Override
+        public void run() {
+            if(!sqHelper.checkPortAvailable()) {
+                timer.cancel();
+                cancelInfoDialog();
+                showInfoDialog("SonarQube server started!");
+            }
+        }
     }
 }

@@ -4,6 +4,8 @@ import handlers.PropertyHandler;
 import models.ScannerTask;
 import java.io.File;
 import java.io.IOException;
+import java.net.DatagramSocket;
+import java.net.ServerSocket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -15,6 +17,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import models.StartSQServer;
 
 /**
  *
@@ -26,12 +29,16 @@ public class sonarqube_helper extends Application {
     private PropertyHandler pHandler;
     private Thread procedure;
     private Alert info;
+    private final static int portNumber = 9000;
     
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
         this.pHandler = new PropertyHandler();
         if (pHandler.checkForPropertyFile()) {
+            if (checkPortAvailable()) {
+                (new Thread(new StartSQServer(this,pHandler.getSQRootsFromPropertyFile()[0]))).start();
+            }
             openMainScreen();
         } else {
             pHandler.createPropertyFile();
@@ -119,7 +126,7 @@ public class sonarqube_helper extends Application {
             if (!pHandler.checkForSQPeropertyFile(path)) {
                 pHandler.createSQPropertyFile(path);
             }
-            procedure = new Thread(new ScannerTask(this, pHandler.getSQRootsFromPropertyFile()[0],
+            procedure = new Thread(new ScannerTask(this, pHandler.getSQRootsFromPropertyFile()[1],
                     pHandler.getProjectRootFromPropertyFile()));
             procedure.start();
         } catch (IOException ex) {
@@ -182,5 +189,35 @@ public class sonarqube_helper extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+    }
+    
+    /**
+    * Checks to see if a specific port is available.
+    *
+    * @return 
+    */
+    public boolean checkPortAvailable() {
+        ServerSocket ss = null;
+        DatagramSocket ds = null;
+        try {
+            ss = new ServerSocket(portNumber);
+            ss.setReuseAddress(true);
+            ds = new DatagramSocket(portNumber);
+            ds.setReuseAddress(true);
+            return true;
+        } catch (IOException e) {
+        } finally {
+            if (ds != null) {
+                ds.close();
+            }
+            if (ss != null) {
+                try {
+                    ss.close();
+                } catch (IOException e) {
+                    /* should not be thrown */
+                }
+            }
+        }
+        return false;
     }
 }
