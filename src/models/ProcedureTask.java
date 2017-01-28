@@ -17,7 +17,7 @@ import javafx.concurrent.Task;
  *
  * @author David
  */
-public class ProcedureTask extends Task {
+public class ProcedureTask implements Runnable {
 
     private String sqRoot;
     private String sqScanner;
@@ -40,7 +40,7 @@ public class ProcedureTask extends Task {
     }
     
     @Override
-    protected Object call() throws Exception {
+    public void run() {
         if (startSQServer()) {
             if (startSonarScanner()) {
                 openBrowser();
@@ -52,7 +52,6 @@ public class ProcedureTask extends Task {
             cancelInfoDialog();
             showErrorDialog("The SonarQube server couldn't be started (localhost:9000)");
         }
-        return null;
     }
     
     /**
@@ -64,16 +63,21 @@ public class ProcedureTask extends Task {
      */
     private boolean startSQServer() {
         try {
+            //Show dialog to the user
+            showInfoDialog("This scan can take several seconds");
+            
             //Creating the correct command and executes it 
             Process startServer = Runtime.getRuntime().exec(sqRoot + "\\bin\\windows-x86-64\\StartSonar.bat");
-            
-            //Uses the scanner to check for keyword 'ERROR'
-            Scanner scanner = new Scanner(startServer.getInputStream());
-            while (scanner.hasNext()) {
-                if (scanner.next().contains("ERROR")) {
+            //startServer.getErrorStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(startServer.getErrorStream()));
+            String line = "";
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+                if (line.contains("ERROR")) {
                     break;
                 }
             }
+
             return true;
         } catch (IOException ex) {
             Logger.getLogger(ProcedureTask.class.getName()).log(Level.SEVERE, null, ex);
@@ -88,9 +92,6 @@ public class ProcedureTask extends Task {
      */
     private boolean startSonarScanner() {
         try {
-            //Show dialog to the user
-            showInfoDialog("This scan can take several seconds");
-            
             //Creating the correct command and executes it
             String command = "cd " + projectPath + " && " + sqScanner + "\\bin\\sonar-scanner";
             ProcessBuilder pBuilder = new ProcessBuilder("cmd.exe", "/c", command);

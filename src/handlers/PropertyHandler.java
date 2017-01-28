@@ -150,6 +150,7 @@ public class PropertyHandler {
     
     /**
      * Gets the project name of the set project path.
+     * 
      * @param path
      * @return project name
      */
