@@ -27,8 +27,8 @@ public class StartSQServer implements Runnable {
     
     @Override
     public void run() {
-        startSQServer();
         startConnectionCheck();
+        startSQServer();
     }
     
     /**
@@ -93,7 +93,7 @@ public class StartSQServer implements Runnable {
     private void startConnectionCheck() {
         System.out.println("Starting connection timer");
         Timer connectionTimer = new Timer();
-        connectionTimer.schedule(new connectionTask(connectionTimer), 0, 500);
+        connectionTimer.schedule(new connectionTask(connectionTimer), 0, 1000);
     }
     
     private class connectionTask extends TimerTask {
