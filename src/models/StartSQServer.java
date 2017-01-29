@@ -1,9 +1,6 @@
 package models;
 
 import gui_files.sonarqube_helper;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -19,11 +16,12 @@ public class StartSQServer implements Runnable {
 
     private sonarqube_helper sqHelper;
     private String sqRoot;
-    private final static String batchFile = "startSQServer.bat";
+    private String projectRoot;
     
-    public  StartSQServer(sonarqube_helper sqHelper, String sqRoot) {
+    public  StartSQServer(sonarqube_helper sqHelper, String sqRoot, String projectRoot) {
         this.sqHelper = sqHelper;
         this.sqRoot = sqRoot;
+        this.projectRoot = projectRoot;
     }
     
     @Override
@@ -81,7 +79,6 @@ public class StartSQServer implements Runnable {
     }
     
     private void startConnectionCheck() {
-        System.out.println("Starting connection timer");
         Timer connectionTimer = new Timer();
         connectionTimer.schedule(new connectionTask(connectionTimer), 0, 1000);
     }
@@ -98,7 +95,7 @@ public class StartSQServer implements Runnable {
             if(!sqHelper.checkPortAvailable()) {
                 timer.cancel();
                 cancelInfoDialog();
-                showInfoDialog("SonarQube server started!");
+                sqHelper.startScanning(projectRoot);
             }
         }
     }

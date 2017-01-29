@@ -36,9 +36,6 @@ public class sonarqube_helper extends Application {
         this.stage = stage;
         this.pHandler = new PropertyHandler();
         if (pHandler.checkForPropertyFile()) {
-            if (checkPortAvailable()) {
-                (new Thread(new StartSQServer(this,pHandler.getSQRootsFromPropertyFile()[0]))).start();
-            }
             openMainScreen();
         } else {
             pHandler.createPropertyFile();
@@ -126,9 +123,14 @@ public class sonarqube_helper extends Application {
             if (!pHandler.checkForSQPeropertyFile(path)) {
                 pHandler.createSQPropertyFile(path);
             }
-            procedure = new Thread(new ScannerTask(this, pHandler.getSQRootsFromPropertyFile()[1],
-                    pHandler.getProjectRootFromPropertyFile()));
-            procedure.start();
+            if (checkPortAvailable()) {
+                (new Thread(new StartSQServer(this, pHandler.getSQRootsFromPropertyFile()[0], path))).start();
+            }
+            else {
+                procedure = new Thread(new ScannerTask(this, pHandler.getSQRootsFromPropertyFile()[1],
+                        pHandler.getProjectRootFromPropertyFile()));
+                procedure.start();
+            }
         } catch (IOException ex) {
             Logger.getLogger(sonarqube_helper.class.getName()).log(Level.SEVERE, null, ex);
         }

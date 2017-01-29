@@ -1,1 +1,0 @@
-C:\Users\David\Documents\Fontys\sonarqube-6.1\bin\windows-x86-64\StartSonar.bat

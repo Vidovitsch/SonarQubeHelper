@@ -38,9 +38,6 @@ public class controller_setup implements Initializable {
     public void save() {
         if (validateFields()) {
             sqHelper.saveSetup(paths);
-            if (sqHelper.checkPortAvailable()) {
-                (new Thread(new StartSQServer(sqHelper, paths[0]))).start();
-            }
             try {
                 sqHelper.openMainScreen();
             } catch (IOException ex) {
