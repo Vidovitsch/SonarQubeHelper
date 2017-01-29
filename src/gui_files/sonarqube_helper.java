@@ -199,24 +199,19 @@ public class sonarqube_helper extends Application {
     * @return 
     */
     public boolean checkPortAvailable() {
-        ServerSocket ss = null;
-        DatagramSocket ds = null;
+        ServerSocket socket = null;
         try {
-            ss = new ServerSocket(portNumber);
-            ss.setReuseAddress(true);
-            ds = new DatagramSocket(portNumber);
-            ds.setReuseAddress(true);
+            socket = new ServerSocket(portNumber);
+            socket.setReuseAddress(true);
             return true;
         } catch (IOException e) {
+            Logger.getLogger(sonarqube_helper.class.getName()).log(Level.SEVERE, null, e);
         } finally {
-            if (ds != null) {
-                ds.close();
-            }
-            if (ss != null) {
+            if (socket != null) {
                 try {
-                    ss.close();
+                    socket.close();
                 } catch (IOException e) {
-                    /* should not be thrown */
+                    Logger.getLogger(sonarqube_helper.class.getName()).log(Level.SEVERE, null, e);
                 }
             }
         }

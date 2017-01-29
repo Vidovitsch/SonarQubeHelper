@@ -93,9 +93,9 @@ public class StartSQServer implements Runnable {
         @Override
         public void run() {
             if(!sqHelper.checkPortAvailable()) {
-                timer.cancel();
                 cancelInfoDialog();
                 sqHelper.startScanning(projectRoot);
+                timer.cancel();
             }
         }
     }

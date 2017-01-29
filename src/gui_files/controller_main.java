@@ -36,11 +36,7 @@ public class controller_main implements Initializable {
     @FXML
     public void start() {
         if (validateFields()) {
-            if (!sqHelper.checkPortAvailable()) {
-                sqHelper.startScanning(path);
-            } else {
-                sqHelper.showWarningDialog("SonarQube server is offline");
-            }
+            sqHelper.startScanning(path);
         } else {
             sqHelper.showWarningDialog("Select a project root before scanning");
         }
