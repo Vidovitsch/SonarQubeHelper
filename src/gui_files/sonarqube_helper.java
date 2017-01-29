@@ -9,6 +9,7 @@ import java.net.ServerSocket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -155,14 +156,19 @@ public class sonarqube_helper extends Application {
      * @param header 
      */
     public void showErrorDialog(String header) {
-        Alert error = new Alert(AlertType.ERROR);
-        error.setTitle("Error Dialog");
-        error.setHeaderText(null);
-        error.setContentText(header);
-        error.showAndWait();
-        
-        //Interrupts running thread
-        procedure.interrupt();
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                Alert error = new Alert(AlertType.ERROR);
+                error.setTitle("Error Dialog");
+                error.setHeaderText(null);
+                error.setContentText(header);
+                error.showAndWait();
+
+                //Interrupts running thread
+                procedure.interrupt();
+            }
+        });
     }
     
     /**
@@ -171,19 +177,29 @@ public class sonarqube_helper extends Application {
      * @param header 
      */
     public void showInfoDialog(String header) {
-        info = new Alert(AlertType.INFORMATION);
-        info.setTitle("Process Running");
-        info.setHeaderText(null);
-        info.setContentText(header);
-        info.getDialogPane().getChildren().remove(info.getDialogPane().lookupButton(ButtonType.OK));
-        info.show();
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                info = new Alert(AlertType.INFORMATION);
+                info.setTitle("Process Running");
+                info.setHeaderText(null);
+                info.setContentText(header);
+                info.getDialogPane().getChildren().remove(info.getDialogPane().lookupButton(ButtonType.OK));
+                info.show();
+           }
+        });
     }
     
     /**
      * Cancels the shown information dialog.
      */
     public void cancelInfoDialog() {
-        info.close();
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                info.close();
+            }
+        });
     }
     
     /**

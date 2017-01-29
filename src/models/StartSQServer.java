@@ -40,7 +40,7 @@ public class StartSQServer implements Runnable {
     private boolean startSQServer(String sqRoot) {
         try {
             //Show dialog to the user
-            showInfoDialog("Starting SonarQube server: This can take a while");
+            sqHelper.showInfoDialog("Starting SonarQube server: This can take a while");
             
             //Creating the correct command and executes it 
             Runtime.getRuntime().exec(sqRoot + "\\bin\\windows-x86-64\\StartSonar.bat");
@@ -50,32 +50,6 @@ public class StartSQServer implements Runnable {
             Logger.getLogger(ScannerTask.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
-    }
-
-    /**
-     * Shows on the JavaFX thread an information dialog
-     * 
-     * @param header 
-     */
-    private void showInfoDialog(String header) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                sqHelper.showInfoDialog(header);
-            }
-        });
-    }
-    
-    /**
-     * Cancels the shown information dialog on the JavaFX thread
-     */
-    private void cancelInfoDialog() {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                sqHelper.cancelInfoDialog();
-            }
-        });
     }
     
     private void startConnectionCheck() {
@@ -93,7 +67,7 @@ public class StartSQServer implements Runnable {
         @Override
         public void run() {
             if(!sqHelper.checkPortAvailable()) {
-                cancelInfoDialog();
+                sqHelper.cancelInfoDialog();
                 sqHelper.startScanning(projectRoot);
                 timer.cancel();
             }

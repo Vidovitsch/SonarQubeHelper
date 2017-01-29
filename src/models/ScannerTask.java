@@ -40,8 +40,8 @@ public class ScannerTask implements Runnable {
         if (startSonarScanner()) {
             openBrowser();
         } else {
-            cancelInfoDialog();
-            showErrorDialog("Scanning failed");
+            sqHelper.cancelInfoDialog();
+            sqHelper.showErrorDialog("Scanning failed");
         }
     }
 
@@ -52,7 +52,7 @@ public class ScannerTask implements Runnable {
      */
     private boolean startSonarScanner() {
         try {
-            showInfoDialog("Scanning project: This can take several seconds");
+            sqHelper.showInfoDialog("Scanning project: This can take several seconds");
             
             //Creating the correct command and executes it
             String command = "cd " + projectPath + " && " + sqScanner + "\\bin\\sonar-scanner";
@@ -70,54 +70,14 @@ public class ScannerTask implements Runnable {
             }
             
             //Cancels the dialog shown
-            cancelInfoDialog();
+            sqHelper.cancelInfoDialog();
             return true;
         }
         catch (IOException ex) {
             Logger.getLogger(ScannerTask.class.getName()).log(Level.SEVERE, null, ex);
-            showErrorDialog("Couldn't scan project");
+            sqHelper.showErrorDialog("Couldn't scan project");
             return false;
         }
-    }
-    
-    /**
-     * Shows on the JavaFX thread an information dialog
-     * 
-     * @param header 
-     */
-    private void showInfoDialog(String header) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                sqHelper.showInfoDialog(header);
-            }
-        });
-    }
-    
-    /**
-     * Cancels the shown information dialog on the JavaFX thread
-     */
-    private void cancelInfoDialog() {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                sqHelper.cancelInfoDialog();
-            }
-        });
-    }
-    
-    /**
-     * Shows on the JavaFX thread an error dialog
-     * 
-     * @param header 
-     */
-    private void showErrorDialog(String header) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                sqHelper.showErrorDialog(header);
-            }
-        });
     }
     
     /**
