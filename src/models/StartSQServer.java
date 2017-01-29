@@ -18,17 +18,18 @@ import javafx.application.Platform;
 public class StartSQServer implements Runnable {
 
     private sonarqube_helper sqHelper;
+    private String sqRoot;
     private final static String batchFile = "startSQServer.bat";
     
     public  StartSQServer(sonarqube_helper sqHelper, String sqRoot) {
         this.sqHelper = sqHelper;
-        initBatchFile(sqRoot);
+        this.sqRoot = sqRoot;
     }
     
     @Override
     public void run() {
         startConnectionCheck();
-        startSQServer();
+        startSQServer(sqRoot);
     }
     
     /**
@@ -38,13 +39,13 @@ public class StartSQServer implements Runnable {
      * 
      * @return true if successful, else false.
      */
-    private boolean startSQServer() {
+    private boolean startSQServer(String sqRoot) {
         try {
             //Show dialog to the user
             showInfoDialog("Starting SonarQube server: This can take a while");
             
             //Creating the correct command and executes it 
-            Runtime.getRuntime().exec(batchFile);
+            Runtime.getRuntime().exec(sqRoot + "\\bin\\windows-x86-64\\StartSonar.bat");
 
             return true;
         } catch (IOException ex) {
@@ -77,17 +78,6 @@ public class StartSQServer implements Runnable {
                 sqHelper.cancelInfoDialog();
             }
         });
-    }
-    
-    private void initBatchFile(String sqRoot) {
-        String command = sqRoot + "\\bin\\windows-x86-64\\StartSonar.bat";
-        try (FileWriter writer = new FileWriter(batchFile)) {
-            writer.write(command);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(StartSQServer.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(StartSQServer.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
     
     private void startConnectionCheck() {
