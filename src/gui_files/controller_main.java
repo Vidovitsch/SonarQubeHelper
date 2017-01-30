@@ -134,28 +134,30 @@ public class controller_main implements Initializable {
         cbProjects.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
                 @Override
                 public void changed(ObservableValue ov,String old_val, String new_val) {
-                    txtAdd.setText(sqHelper.getPrevProjectProperties().getProperty(new_val));
+                    if (new_val != null) {
+                        txtAdd.setText(sqHelper.getPrevProjectProperties().getProperty(new_val));
+                    }
                 }
             });
     }
     
     public void setChoiceBoxModel(Properties props) {
-        String selectedKey = "";
-        int index = 0;
+        int index = -1;
         int indexCounter = 0;
         ArrayList<String> items = new ArrayList();
         Enumeration e = props.propertyNames();
         while (e.hasMoreElements()) {
             String key = (String) e.nextElement();
             items.add(key);
-            if (path.equals(props.getProperty(key))) {
-                selectedKey = key;
-                index = indexCounter;
+            if (!path.isEmpty()) {
+                if (path.equals(props.getProperty(key))) {
+                    index = indexCounter;
+                }
             }
             indexCounter++;
         }
         cbProjects.setItems(FXCollections.observableArrayList(items));
-        if (path.equals(props.getProperty(selectedKey))) {
+        if (index != -1) {
             cbProjects.getSelectionModel().select(index);
         }
     }
