@@ -1,5 +1,6 @@
 package models;
 
+import enums.OpSystem;
 import gui_files.sonarqube_helper;
 import java.io.IOException;
 import java.util.Timer;
@@ -16,11 +17,13 @@ public class StartSQServer implements Runnable {
     private sonarqube_helper sqHelper;
     private String sqRoot;
     private String projectRoot;
+    private OpSystem system;
     
-    public  StartSQServer(sonarqube_helper sqHelper, String sqRoot, String projectRoot) {
+    public  StartSQServer(sonarqube_helper sqHelper, String sqRoot, String projectRoot, OpSystem system) {
         this.sqHelper = sqHelper;
         this.sqRoot = sqRoot;
         this.projectRoot = projectRoot;
+        this.system = system;
     }
     
     @Override
@@ -42,7 +45,7 @@ public class StartSQServer implements Runnable {
             sqHelper.showInfoDialog("Starting SonarQube server: This can take a while", "This can take up to a minute");
             
             //Creating the correct command and executes it 
-            Runtime.getRuntime().exec(sqRoot + "\\bin\\windows-x86-64\\StartSonar.bat");
+            Runtime.getRuntime().exec(sqRoot + "\\bin" + system.getFilePath(system));
 
             return true;
         } catch (IOException ex) {

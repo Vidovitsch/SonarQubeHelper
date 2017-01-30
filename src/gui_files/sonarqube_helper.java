@@ -1,5 +1,6 @@
 package gui_files;
 
+import enums.OpSystem;
 import handlers.PropertyHandler;
 import models.ScannerTask;
 import java.io.File;
@@ -67,7 +68,7 @@ public class sonarqube_helper extends Application {
         stage.show();
         controller_setup setupController = (controller_setup) loader.getController();
         setupController.setSQHelper(this);
-        setupController.setValues(pHandler.getSQRootsFromPropertyFile());
+        setupController.setValues(pHandler.getSQRootsFromPropertyFile(), pHandler.getSystemFromPropertyFile());
     }
     
     /**
@@ -104,10 +105,12 @@ public class sonarqube_helper extends Application {
      * Saves the paths set in the setup screen.
      * 
      * @param paths 
+     * @param system 
      */
-    public void saveSetup(String[] paths) {
+    public void saveSetup(String[] paths, OpSystem system) {
         try {
             pHandler.savePropertyFileSQRoots(paths);
+            pHandler.savePropertyFileSystem(system);
         } catch (IOException ex) {
             Logger.getLogger(sonarqube_helper.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -121,12 +124,13 @@ public class sonarqube_helper extends Application {
      */
     public void startScanning(String path) {
         try {
-            pHandler.savePropertyFilePRoot(path);
+            pHandler.savePropertyFileRoot(path);
             if (!pHandler.checkForSQPeropertyFile(path)) {
                 pHandler.createSQPropertyFile(path);
             }
             if (checkPortAvailable()) {
-                (new Thread(new StartSQServer(this, pHandler.getSQRootsFromPropertyFile()[0], path))).start();
+                (new Thread(new StartSQServer(this, pHandler.getSQRootsFromPropertyFile()[0], path,
+                        pHandler.getSystemFromPropertyFile()))).start();
             }
             else {
                 procedure = new Thread(new ScannerTask(this, pHandler.getSQRootsFromPropertyFile()[1],

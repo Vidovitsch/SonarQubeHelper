@@ -1,5 +1,6 @@
 package handlers;
 
+import enums.OpSystem;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -17,6 +18,7 @@ public class PropertyHandler {
     private final static String propertyFileName = "sq_helper.properties";
     private final static String rootKey = "sqRoot";
     private final static String scannerKey = "sqScanner";
+    private final static String systemKey = "sqSystem";
     private final static String projectKey = "pRoot";
     
     /**
@@ -65,6 +67,16 @@ public class PropertyHandler {
         return path;
     }
     
+    public OpSystem getSystemFromPropertyFile() throws IOException {
+        OpSystem system = null;
+        Properties sq_helper = new Properties();
+        try (FileInputStream input = new FileInputStream(propertyFileName)) {
+            sq_helper.load(input);
+            system = OpSystem.getEnumValue(sq_helper.getProperty(systemKey));
+        }
+        return system;
+    }
+    
     /**
      * Saves the new SQroot paths to the property file
      * 
@@ -83,13 +95,24 @@ public class PropertyHandler {
         }
     }
     
+    public void savePropertyFileSystem(OpSystem system) throws IOException {
+        Properties sq_helper = new Properties();
+        try (FileInputStream input = new FileInputStream(propertyFileName)) {
+            sq_helper.load(input);
+        }
+        try (FileOutputStream output = new FileOutputStream(propertyFileName)) {
+            sq_helper.replace(systemKey, system.getSystemValue(system));
+            sq_helper.store(output, null);
+        }
+    }
+    
     /**
      * Saves the new project path to the property file
      * 
      * @param path 
      * @throws java.io.IOException 
      */
-    public void savePropertyFilePRoot(String path) throws IOException {
+    public void savePropertyFileRoot(String path) throws IOException {
         Properties sq_helper = new Properties();
         try (FileInputStream input = new FileInputStream(propertyFileName)) {
             sq_helper.load(input);
@@ -133,6 +156,7 @@ public class PropertyHandler {
             Properties sq_helper = new Properties();
             sq_helper.setProperty(rootKey, "");
             sq_helper.setProperty(scannerKey, "");
+            sq_helper.setProperty(systemKey, "");
             sq_helper.setProperty(projectKey, "");
             sq_helper.store(output, null);
         }

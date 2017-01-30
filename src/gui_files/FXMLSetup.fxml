@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="232.0" prefWidth="406.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui_files.controller_setup">
+<AnchorPane id="AnchorPane" prefHeight="301.0" prefWidth="406.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui_files.controller_setup">
    <children>
       <TextField fx:id="txtSQRoot" layoutX="80.0" layoutY="88.0" prefHeight="25.0" prefWidth="300.0" />
       <Label fx:id="lblHeader" layoutX="28.0" layoutY="24.0" text="Setup SonarQube files">
@@ -20,6 +20,10 @@
       <TextField fx:id="txtSQScanner" layoutX="80.0" layoutY="146.0" prefHeight="25.0" prefWidth="300.0" />
       <Label fx:id="lblSQRoot" layoutX="28.0" layoutY="66.0" text="SonarQube root" />
       <Label fx:id="lblSQScanner" layoutX="28.0" layoutY="124.0" text="SonarQube scanner" />
-      <Button fx:id="btnSave" layoutX="309.0" layoutY="183.0" mnemonicParsing="false" onAction="#save" prefHeight="25.0" prefWidth="71.0" text="Save" />
+      <Button fx:id="btnSave" layoutX="309.0" layoutY="257.0" mnemonicParsing="false" onAction="#save" prefHeight="25.0" prefWidth="71.0" text="Save" />
+      <ChoiceBox fx:id="cbOS" layoutX="28.0" layoutY="204.0" prefWidth="150.0" />
+      <Label layoutX="28.0" layoutY="182.0" text="OS" />
+      <ChoiceBox fx:id="cbIDE" layoutX="230.0" layoutY="204.0" prefWidth="150.0" />
+      <Label layoutX="230.0" layoutY="182.0" text="IDE" />
    </children>
 </AnchorPane>
