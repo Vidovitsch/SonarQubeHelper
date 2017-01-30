@@ -27,7 +27,7 @@ import javafx.scene.control.TextField;
 public class controller_main implements Initializable {
 
     private sonarqube_helper sqHelper;
-    private static String path;
+    private String path;
     
     @FXML
     private ChoiceBox cbProjects;
