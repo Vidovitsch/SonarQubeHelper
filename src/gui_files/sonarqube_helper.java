@@ -4,8 +4,8 @@ import handlers.PropertyHandler;
 import models.ScannerTask;
 import java.io.File;
 import java.io.IOException;
-import java.net.DatagramSocket;
 import java.net.ServerSocket;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -27,6 +27,7 @@ import models.StartSQServer;
 public class sonarqube_helper extends Application {
     
     private Stage stage;
+    private controller_main mainController;
     private PropertyHandler pHandler;
     private Thread procedure;
     private Alert info;
@@ -81,7 +82,7 @@ public class sonarqube_helper extends Application {
         stage.setScene(scene);
         stage.setTitle("Main");
         stage.show();
-        controller_main mainController = (controller_main) loader.getController();
+        mainController = (controller_main) loader.getController();
         mainController.setSQHelper(this);
         mainController.setValues(pHandler.getProjectRootFromPropertyFile());
     }
@@ -134,6 +135,7 @@ public class sonarqube_helper extends Application {
             }
         } catch (IOException ex) {
             Logger.getLogger(sonarqube_helper.class.getName()).log(Level.SEVERE, null, ex);
+            showErrorDialog("Can't scan this project");
         }
     }
     
@@ -233,5 +235,30 @@ public class sonarqube_helper extends Application {
             }
         }
         return false;
+    }
+    
+    public Properties getPrevProjectProperties() {
+        try {
+            return pHandler.getPrevProjectProperties();
+        } catch (IOException ex) {
+            Logger.getLogger(sonarqube_helper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        //Won't happen
+        return null;
+    }
+    
+    public void setNewPrevProject(String path) {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    pHandler.setNewPrevProject(path);
+                    mainController.setChoiceBoxModel(getPrevProjectProperties());
+                } catch (IOException ex) {
+                    Logger.getLogger(sonarqube_helper.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
     }
 }

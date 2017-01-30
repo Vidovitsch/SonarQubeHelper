@@ -12,6 +12,7 @@ import java.util.Properties;
  */
 public class PropertyHandler {
 
+    private final static String propertyPrevProjects = "prev_projects.properties";
     private final static String propertySQFileName = "sonar-project.properties";
     private final static String propertyFileName = "sq_helper.properties";
     private final static String rootKey = "sqRoot";
@@ -146,6 +147,42 @@ public class PropertyHandler {
     public boolean checkForSQPeropertyFile(String path) {
         File propertyFile = new File(path + "\\" + propertySQFileName);
         return propertyFile.exists();
+    }
+    
+    public Properties getPrevProjectProperties() throws IOException {
+        //Checking if file exists; if not, make a new one
+        checkForPrevProjectFile();
+        
+        Properties prevProjects = new Properties();
+        try (FileInputStream input = new FileInputStream(propertyPrevProjects)) {
+            prevProjects.load(input);
+        }
+        return prevProjects;
+    }
+    
+    public void setNewPrevProject(String path) throws IOException {
+        String projectName = getProjectName(path);
+        Properties prevProjects = new Properties();
+        try (FileInputStream input = new FileInputStream(propertyPrevProjects)) {
+            prevProjects.load(input);
+        }
+        try (FileOutputStream output = new FileOutputStream(propertyPrevProjects)) {
+            if (prevProjects.getProperty(projectName) == null) {
+                prevProjects.setProperty(projectName, path);
+            }
+            prevProjects.store(output, null);
+        }
+    }
+    
+    private void checkForPrevProjectFile() throws IOException {
+        File propertyFile = new File(propertyPrevProjects);
+        if (!propertyFile.exists()) {
+            try (FileOutputStream output = new FileOutputStream(propertyFile)) {
+//                Properties prevProjects = new Properties();
+//                prevProjects.setProperty("Default", "C:\\");
+//                prevProjects.store(output, null);
+            }
+        }
     }
     
     /**

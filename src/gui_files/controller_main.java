@@ -2,12 +2,20 @@ package gui_files;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
@@ -19,7 +27,10 @@ import javafx.scene.control.TextField;
 public class controller_main implements Initializable {
 
     private sonarqube_helper sqHelper;
-    private String path;
+    private static String path;
+    
+    @FXML
+    private ChoiceBox cbProjects;
     
     @FXML
     private Label lblHeader, lblProjectRoot;
@@ -91,7 +102,13 @@ public class controller_main implements Initializable {
      * @param sqProjectRoot
      */
     public void setValues(String sqProjectRoot) {
-        path = sqProjectRoot;
+        if (!sqProjectRoot.isEmpty()) {
+            path = sqProjectRoot;
+        }
+        
+        //Set previous projectnames in the choice box
+        Properties projects = sqHelper.getPrevProjectProperties();
+        setChoiceBoxModel(projects);
         
         //Give value to the field in the GUI
         txtAdd.setText(path);
@@ -114,5 +131,32 @@ public class controller_main implements Initializable {
         txtAdd.textProperty().addListener((observable, oldValue, newValue) -> {
             path = newValue;
         });
+        cbProjects.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+                @Override
+                public void changed(ObservableValue ov,String old_val, String new_val) {
+                    txtAdd.setText(sqHelper.getPrevProjectProperties().getProperty(new_val));
+                }
+            });
+    }
+    
+    public void setChoiceBoxModel(Properties props) {
+        String selectedKey = "";
+        int index = 0;
+        int indexCounter = 0;
+        ArrayList<String> items = new ArrayList();
+        Enumeration e = props.propertyNames();
+        while (e.hasMoreElements()) {
+            String key = (String) e.nextElement();
+            items.add(key);
+            if (path.equals(props.getProperty(key))) {
+                selectedKey = key;
+                index = indexCounter;
+            }
+            indexCounter++;
+        }
+        cbProjects.setItems(FXCollections.observableArrayList(items));
+        if (path.equals(props.getProperty(selectedKey))) {
+            cbProjects.getSelectionModel().select(index);
+        }
     }
 }

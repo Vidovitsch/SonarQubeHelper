@@ -9,7 +9,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Platform;
 
 /**
  *
@@ -78,6 +77,10 @@ public class ScannerTask implements Runnable {
             if (infoCounter == 0) {
                 return false;
             }
+            
+            //Set new previous scanned project
+            
+            sqHelper.setNewPrevProject(projectPath);
             
             //Cancels the dialog shown
             sqHelper.cancelInfoDialog();
