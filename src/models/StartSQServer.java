@@ -6,7 +6,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Platform;
 
 /**
  *
@@ -40,7 +39,7 @@ public class StartSQServer implements Runnable {
     private boolean startSQServer(String sqRoot) {
         try {
             //Show dialog to the user
-            sqHelper.showInfoDialog("Starting SonarQube server: This can take a while");
+            sqHelper.showInfoDialog("Starting SonarQube server: This can take a while", "This can take up to a minute");
             
             //Creating the correct command and executes it 
             Runtime.getRuntime().exec(sqRoot + "\\bin\\windows-x86-64\\StartSonar.bat");

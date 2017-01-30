@@ -52,7 +52,9 @@ public class ScannerTask implements Runnable {
      */
     private boolean startSonarScanner() {
         try {
-            sqHelper.showInfoDialog("Scanning project: This can take several seconds");
+            int infoCounter = 0;
+            
+            sqHelper.showInfoDialog("Scanning project", "This can take up to a minute (depends on project size)");
             
             //Creating the correct command and executes it
             String command = "cd " + projectPath + " && " + sqScanner + "\\bin\\sonar-scanner";
@@ -66,7 +68,15 @@ public class ScannerTask implements Runnable {
                 System.out.println(line);
                 if (line.contains("FAILURE")) {
                     return false;
+                } else if (line.contains("INFO") && infoCounter == 0) {
+                    infoCounter++;
                 }
+            }
+            
+            //Check the amount of lines containing 'INFO'.
+            //If its 0 means that there has been an exception thrown while sanning the project
+            if (infoCounter == 0) {
+                return false;
             }
             
             //Cancels the dialog shown

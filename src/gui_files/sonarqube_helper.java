@@ -175,15 +175,16 @@ public class sonarqube_helper extends Application {
      * Shows a information dialog with a set header.
      * 
      * @param header 
+     * @param message 
      */
-    public void showInfoDialog(String header) {
+    public void showInfoDialog(String header, String message) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
                 info = new Alert(AlertType.INFORMATION);
                 info.setTitle("Process Running");
-                info.setHeaderText(null);
-                info.setContentText(header);
+                info.setHeaderText(header);
+                info.setContentText(message);
                 info.getDialogPane().getChildren().remove(info.getDialogPane().lookupButton(ButtonType.OK));
                 info.show();
            }
