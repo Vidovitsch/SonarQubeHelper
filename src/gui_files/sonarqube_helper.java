@@ -68,7 +68,8 @@ public class sonarqube_helper extends Application {
         stage.show();
         controller_setup setupController = (controller_setup) loader.getController();
         setupController.setSQHelper(this);
-        setupController.setValues(pHandler.getSQRootsFromPropertyFile(), pHandler.getSystemFromPropertyFile());
+        setupController.setValues(pHandler.getSQRootsFromPropertyFile(), pHandler.getSystemFromPropertyFile(),
+                pHandler.getSourceFromPropertyFile());
     }
     
     /**
@@ -106,11 +107,13 @@ public class sonarqube_helper extends Application {
      * 
      * @param paths 
      * @param system 
+     * @param src 
      */
-    public void saveSetup(String[] paths, OpSystem system) {
+    public void saveSetup(String[] paths, OpSystem system, String src) {
         try {
             pHandler.savePropertyFileSQRoots(paths);
             pHandler.savePropertyFileSystem(system);
+            pHandler.savePropertyFileSource(src);
         } catch (IOException ex) {
             Logger.getLogger(sonarqube_helper.class.getName()).log(Level.SEVERE, null, ex);
         }

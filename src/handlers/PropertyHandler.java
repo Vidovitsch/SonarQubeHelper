@@ -20,6 +20,7 @@ public class PropertyHandler {
     private final static String scannerKey = "sqScanner";
     private final static String systemKey = "sqSystem";
     private final static String projectKey = "pRoot";
+    private final static String sourceKey = "pSource";
     
     /**
      * Checks if the property file 'sq_helper.properties' already exists.
@@ -77,6 +78,16 @@ public class PropertyHandler {
         return system;
     }
     
+    public String getSourceFromPropertyFile() throws IOException {
+        String src;
+        Properties sq_helper = new Properties();
+        try (FileInputStream input = new FileInputStream(propertyFileName)) {
+            sq_helper.load(input);
+            src = sq_helper.getProperty(sourceKey);
+        }
+        return src;
+    }
+    
     /**
      * Saves the new SQroot paths to the property file
      * 
@@ -102,6 +113,17 @@ public class PropertyHandler {
         }
         try (FileOutputStream output = new FileOutputStream(propertyFileName)) {
             sq_helper.replace(systemKey, system.getSystemValue(system));
+            sq_helper.store(output, null);
+        }
+    }
+    
+    public void savePropertyFileSource(String src) throws IOException {
+        Properties sq_helper = new Properties();
+        try (FileInputStream input = new FileInputStream(propertyFileName)) {
+            sq_helper.load(input);
+        }
+        try (FileOutputStream output = new FileOutputStream(propertyFileName)) {
+            sq_helper.replace(systemKey, src);
             sq_helper.store(output, null);
         }
     }
@@ -140,7 +162,7 @@ public class PropertyHandler {
             sonar_project.setProperty("sonar.projectKey", projectName);
             sonar_project.setProperty("sonar.projectName", projectName);
             sonar_project.setProperty("sonar.projectVersion", "1.0");
-            sonar_project.setProperty("sonar.sources", "./src");
+            sonar_project.setProperty("sonar.sources", getSourceFromPropertyFile());
             sonar_project.store(output, null);
         }
     }
@@ -158,6 +180,7 @@ public class PropertyHandler {
             sq_helper.setProperty(scannerKey, "");
             sq_helper.setProperty(systemKey, "");
             sq_helper.setProperty(projectKey, "");
+            sq_helper.setProperty(sourceKey, "./src");
             sq_helper.store(output, null);
         }
     }

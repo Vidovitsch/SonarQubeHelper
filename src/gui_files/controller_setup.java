@@ -27,6 +27,7 @@ public class controller_setup implements Initializable {
     private sonarqube_helper sqHelper;
     private String[] paths;
     private OpSystem system;
+    private String src;
             
     @FXML
     private Label lblHeader, lblSQRoot, lblSQScanner;
@@ -35,10 +36,10 @@ public class controller_setup implements Initializable {
     private Button btnSQRoot, btnSQScanner, btnSave;
     
     @FXML
-    private ChoiceBox cbOS, cbIDE;
+    private ChoiceBox cbOS;
     
     @FXML
-    private TextField txtSQRoot, txtSQScanner;
+    private TextField txtSQRoot, txtSQScanner, txtProjectSource;
     
     /**
      * Saves the set root fields after pressing te 'Save' button.
@@ -46,7 +47,7 @@ public class controller_setup implements Initializable {
     @FXML
     public void save() {
         if (validateFields()) {
-            sqHelper.saveSetup(paths, system);
+            sqHelper.saveSetup(paths, system, src);
             try {
                 sqHelper.openMainScreen();
             } catch (IOException ex) {
@@ -104,18 +105,21 @@ public class controller_setup implements Initializable {
      * 
      * @param paths 
      * @param system 
+     * @param src 
      */
-    public void setValues(String[] paths, OpSystem system) {
+    public void setValues(String[] paths, OpSystem system, String src) {
         this.paths = new String[2];
         this.paths[0] = paths[0];
         this.paths[1] = paths[1];
         this.system = system;
+        this.src = src;
         
         fillChoiceBoxOS();
         
         //Give values to the fields in the GUI
         txtSQRoot.setText(paths[0]);
         txtSQScanner.setText(paths[1]);
+        txtProjectSource.setText(src);
         setEventHandlers();
     }
     
@@ -153,6 +157,9 @@ public class controller_setup implements Initializable {
         });
         txtSQScanner.textProperty().addListener((observable, oldValue, newValue) -> {
             paths[1] = newValue;
+        });
+        txtProjectSource.textProperty().addListener((observable, oldValue, newValue) -> {
+            src = newValue;
         });
         cbOS.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
                 @Override
