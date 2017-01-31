@@ -145,6 +145,9 @@ public class controller_setup implements Initializable {
      * @return true if both are filled, false if not.
      */
     private boolean validateFields() {
+        if (src.isEmpty()) {
+            src = "./src";
+        }
         return !(txtSQRoot.getText().isEmpty() || txtSQScanner.getText().isEmpty());
     }
     

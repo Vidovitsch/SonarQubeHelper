@@ -123,7 +123,7 @@ public class PropertyHandler {
             sq_helper.load(input);
         }
         try (FileOutputStream output = new FileOutputStream(propertyFileName)) {
-            sq_helper.replace(systemKey, src);
+            sq_helper.replace(sourceKey, src);
             sq_helper.store(output, null);
         }
     }
@@ -185,17 +185,6 @@ public class PropertyHandler {
         }
     }
     
-    /**
-     * Checks if the sonarqube propertyfile already exists in the set project file.
-     * 
-     * @param path
-     * @return true if exists, else false
-     */
-    public boolean checkForSQPeropertyFile(String path) {
-        File propertyFile = new File(path + "\\" + propertySQFileName);
-        return propertyFile.exists();
-    }
-    
     public Properties getPrevProjectProperties() throws IOException {
         //Checking if file exists; if not, make a new one
         checkForPrevProjectFile();
@@ -224,11 +213,7 @@ public class PropertyHandler {
     private void checkForPrevProjectFile() throws IOException {
         File propertyFile = new File(propertyPrevProjects);
         if (!propertyFile.exists()) {
-            try (FileOutputStream output = new FileOutputStream(propertyFile)) {
-//                Properties prevProjects = new Properties();
-//                prevProjects.setProperty("Default", "C:\\");
-//                prevProjects.store(output, null);
-            }
+            propertyFile.createNewFile();
         }
     }
     

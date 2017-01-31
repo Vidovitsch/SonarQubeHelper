@@ -42,7 +42,7 @@ public class StartSQServer implements Runnable {
     private boolean startSQServer(String sqRoot) {
         try {
             //Show dialog to the user
-            sqHelper.showInfoDialog("Starting SonarQube server: This can take a while", "This can take up to a minute");
+            sqHelper.showInfoDialog("Starting SonarQube server", "This can take up to a minute");
             
             //Creating the correct command and executes it 
             Runtime.getRuntime().exec(sqRoot + "\\bin" + system.getFilePath(system));

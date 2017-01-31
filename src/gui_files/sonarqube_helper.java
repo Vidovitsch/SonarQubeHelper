@@ -128,9 +128,8 @@ public class sonarqube_helper extends Application {
     public void startScanning(String path) {
         try {
             pHandler.savePropertyFileRoot(path);
-            if (!pHandler.checkForSQPeropertyFile(path)) {
-                pHandler.createSQPropertyFile(path);
-            }
+            pHandler.createSQPropertyFile(path);
+            
             if (checkPortAvailable()) {
                 (new Thread(new StartSQServer(this, pHandler.getSQRootsFromPropertyFile()[0], path,
                         pHandler.getSystemFromPropertyFile()))).start();
