@@ -23,7 +23,7 @@ public class PropertyHandler {
     private static final String SOURCEKEY = "pSource";
     
     /**
-     * Checks if the property file 'sq_helper.properties' already exists.
+     * Checks if the property file 'sqHelper.properties' already exists.
      * 
      * @return true if it exists, else false
      * @throws java.io.IOException
@@ -42,11 +42,11 @@ public class PropertyHandler {
      */
     public String[] getSQRootsFromPropertyFile() throws IOException {
         String[] paths = new String[2];
-        Properties sq_helper = new Properties();
+        Properties sqHelper = new Properties();
         try (FileInputStream input = new FileInputStream(PROPERTYFILENAME)) {
-            sq_helper.load(input);
-            paths[0] = sq_helper.getProperty(ROOTKEY);
-            paths[1] = sq_helper.getProperty(SCANNERKEY);
+            sqHelper.load(input);
+            paths[0] = sqHelper.getProperty(ROOTKEY);
+            paths[1] = sqHelper.getProperty(SCANNERKEY);
         }
         return paths;
     }
@@ -60,10 +60,10 @@ public class PropertyHandler {
      */
     public String getProjectRootFromPropertyFile() throws IOException {
         String path = "";
-        Properties sq_helper = new Properties();
+        Properties sqHelper = new Properties();
         try (FileInputStream input = new FileInputStream(PROPERTYFILENAME)) {
-            sq_helper.load(input);
-            path = sq_helper.getProperty(PROJECTKEY);
+            sqHelper.load(input);
+            path = sqHelper.getProperty(PROJECTKEY);
         }
         return path;
     }
@@ -76,10 +76,10 @@ public class PropertyHandler {
      */
     public opsystem getSystemFromPropertyFile() throws IOException {
         opsystem system = null;
-        Properties sq_helper = new Properties();
+        Properties sqHelper = new Properties();
         try (FileInputStream input = new FileInputStream(PROPERTYFILENAME)) {
-            sq_helper.load(input);
-            system = opsystem.getEnumValue(sq_helper.getProperty(SYSTEMKEY));
+            sqHelper.load(input);
+            system = opsystem.getEnumValue(sqHelper.getProperty(SYSTEMKEY));
         }
         return system;
     }
@@ -92,10 +92,10 @@ public class PropertyHandler {
      */
     public String getSourceFromPropertyFile() throws IOException {
         String src;
-        Properties sq_helper = new Properties();
+        Properties sqHelper = new Properties();
         try (FileInputStream input = new FileInputStream(PROPERTYFILENAME)) {
-            sq_helper.load(input);
-            src = sq_helper.getProperty(SOURCEKEY);
+            sqHelper.load(input);
+            src = sqHelper.getProperty(SOURCEKEY);
         }
         return src;
     }
@@ -107,14 +107,14 @@ public class PropertyHandler {
      * @throws IOException 
      */
     public void savePropertyFileSQRoots(String[] paths) throws IOException {
-        Properties sq_helper = new Properties();
+        Properties sqHelper = new Properties();
         try (FileInputStream input = new FileInputStream(PROPERTYFILENAME)) {
-            sq_helper.load(input);
+            sqHelper.load(input);
         }
         try (FileOutputStream output = new FileOutputStream(PROPERTYFILENAME)) {
-            sq_helper.replace(ROOTKEY, paths[0]);
-            sq_helper.replace(SCANNERKEY, paths[1]);
-            sq_helper.store(output, null);
+            sqHelper.replace(ROOTKEY, paths[0]);
+            sqHelper.replace(SCANNERKEY, paths[1]);
+            sqHelper.store(output, null);
         }
     }
     
@@ -125,13 +125,13 @@ public class PropertyHandler {
      * @throws IOException 
      */
     public void savePropertyFileSystem(opsystem system) throws IOException {
-        Properties sq_helper = new Properties();
+        Properties sqHelper = new Properties();
         try (FileInputStream input = new FileInputStream(PROPERTYFILENAME)) {
-            sq_helper.load(input);
+            sqHelper.load(input);
         }
         try (FileOutputStream output = new FileOutputStream(PROPERTYFILENAME)) {
-            sq_helper.replace(SYSTEMKEY, system.getSystemValue(system));
-            sq_helper.store(output, null);
+            sqHelper.replace(SYSTEMKEY, system.getSystemValue(system));
+            sqHelper.store(output, null);
         }
     }
     
@@ -142,13 +142,13 @@ public class PropertyHandler {
      * @throws IOException 
      */
     public void savePropertyFileSource(String src) throws IOException {
-        Properties sq_helper = new Properties();
+        Properties sqHelper = new Properties();
         try (FileInputStream input = new FileInputStream(PROPERTYFILENAME)) {
-            sq_helper.load(input);
+            sqHelper.load(input);
         }
         try (FileOutputStream output = new FileOutputStream(PROPERTYFILENAME)) {
-            sq_helper.replace(SOURCEKEY, src);
-            sq_helper.store(output, null);
+            sqHelper.replace(SOURCEKEY, src);
+            sqHelper.store(output, null);
         }
     }
     
@@ -159,13 +159,13 @@ public class PropertyHandler {
      * @throws java.io.IOException 
      */
     public void savePropertyFileRoot(String path) throws IOException {
-        Properties sq_helper = new Properties();
+        Properties sqHelper = new Properties();
         try (FileInputStream input = new FileInputStream(PROPERTYFILENAME)) {
-            sq_helper.load(input);
+            sqHelper.load(input);
         }
         try (FileOutputStream output = new FileOutputStream(PROPERTYFILENAME)) {
-            sq_helper.replace(PROJECTKEY, path);
-            sq_helper.store(output, null);
+            sqHelper.replace(PROJECTKEY, path);
+            sqHelper.store(output, null);
         }
     }
     
@@ -182,12 +182,12 @@ public class PropertyHandler {
     public void createSQPropertyFile(String path) throws IOException {
         String projectName = getProjectName(path);
         try (FileOutputStream output = new FileOutputStream(path + "\\" + PROPERTYSQFILENAME)) {
-            Properties sonar_project = new Properties();
-            sonar_project.setProperty("sonar.projectKey", projectName);
-            sonar_project.setProperty("sonar.projectName", projectName);
-            sonar_project.setProperty("sonar.projectVersion", "1.0");
-            sonar_project.setProperty("sonar.sources", getSourceFromPropertyFile());
-            sonar_project.store(output, null);
+            Properties sonarProject = new Properties();
+            sonarProject.setProperty("sonar.projectKey", projectName);
+            sonarProject.setProperty("sonar.projectName", projectName);
+            sonarProject.setProperty("sonar.projectVersion", "1.0");
+            sonarProject.setProperty("sonar.sources", getSourceFromPropertyFile());
+            sonarProject.store(output, null);
         }
     }
     
@@ -199,13 +199,13 @@ public class PropertyHandler {
      */
     public void createPropertyFile() throws IOException {
         try (FileOutputStream output = new FileOutputStream(PROPERTYFILENAME)) {
-            Properties sq_helper = new Properties();
-            sq_helper.setProperty(ROOTKEY, "");
-            sq_helper.setProperty(SCANNERKEY, "");
-            sq_helper.setProperty(SYSTEMKEY, "");
-            sq_helper.setProperty(PROJECTKEY, "");
-            sq_helper.setProperty(SOURCEKEY, "./src");
-            sq_helper.store(output, null);
+            Properties sqHelper = new Properties();
+            sqHelper.setProperty(ROOTKEY, "");
+            sqHelper.setProperty(SCANNERKEY, "");
+            sqHelper.setProperty(SYSTEMKEY, "");
+            sqHelper.setProperty(PROJECTKEY, "");
+            sqHelper.setProperty(SOURCEKEY, "./src");
+            sqHelper.store(output, null);
         }
     }
     

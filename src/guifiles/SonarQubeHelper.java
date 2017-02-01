@@ -48,8 +48,7 @@ public class SonarQubeHelper extends Application {
 
     @Override
     public void stop() {
-        //Calling stop instead of interrupt; interrupting won't stop running cmd processes, while stop does.
-        procedure.stop();
+        procedure.interrupt();
     }
     
     /**
@@ -129,7 +128,6 @@ public class SonarQubeHelper extends Application {
         try {
             pHandler.savePropertyFileRoot(path);
             pHandler.createSQPropertyFile(path);
-            
             if (checkPortAvailable()) {
                 (new Thread(new StartSQServer(this, pHandler.getSQRootsFromPropertyFile()[0], path,
                         pHandler.getSystemFromPropertyFile()))).start();
@@ -164,18 +162,15 @@ public class SonarQubeHelper extends Application {
      * @param header 
      */
     public void showErrorDialog(String header) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                Alert error = new Alert(AlertType.ERROR);
-                error.setTitle("Error Dialog");
-                error.setHeaderText(null);
-                error.setContentText(header);
-                error.showAndWait();
-
-                //Interrupts running thread
-                procedure.interrupt();
-            }
+        Platform.runLater(() -> {
+            Alert error = new Alert(AlertType.ERROR);
+            error.setTitle("Error Dialog");
+            error.setHeaderText(null);
+            error.setContentText(header);
+            error.showAndWait();
+            
+            //Interrupts running thread
+            procedure.interrupt();
         });
     }
     
@@ -186,16 +181,13 @@ public class SonarQubeHelper extends Application {
      * @param message 
      */
     public void showInfoDialog(String header, String message) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                info = new Alert(AlertType.INFORMATION);
-                info.setTitle("Process Running");
-                info.setHeaderText(header);
-                info.setContentText(message);
-                info.getDialogPane().getChildren().remove(info.getDialogPane().lookupButton(ButtonType.OK));
-                info.show();
-           }
+        Platform.runLater(() -> {
+            info = new Alert(AlertType.INFORMATION);
+            info.setTitle("Process Running");
+            info.setHeaderText(header);
+            info.setContentText(message);
+            info.getDialogPane().getChildren().remove(info.getDialogPane().lookupButton(ButtonType.OK));
+            info.show();
         });
     }
     
@@ -203,12 +195,7 @@ public class SonarQubeHelper extends Application {
      * Cancels the shown information dialog.
      */
     public void cancelInfoDialog() {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                info.close();
-            }
-        });
+        Platform.runLater(info::close);
     }
     
     /**
@@ -224,21 +211,11 @@ public class SonarQubeHelper extends Application {
     * @return 
     */
     public boolean checkPortAvailable() {
-        ServerSocket socket = null;
-        try {
-            socket = new ServerSocket(PORTNUMBER);
+        try (ServerSocket socket = new ServerSocket(PORTNUMBER)) {
             socket.setReuseAddress(true);
             return true;
         } catch (IOException e) {
             Logger.getLogger(SonarQubeHelper.class.getName()).log(Level.SEVERE, null, e);
-        } finally {
-            if (socket != null) {
-                try {
-                    socket.close();
-                } catch (IOException e) {
-                    Logger.getLogger(SonarQubeHelper.class.getName()).log(Level.SEVERE, null, e);
-                }
-            }
         }
         return false;
     }
@@ -265,15 +242,12 @@ public class SonarQubeHelper extends Application {
      * @param path 
      */
     public void setNewPrevProject(String path) {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    pHandler.setNewPrevProject(path);
-                    mainController.setChoiceBoxModel(getPrevProjectProperties());
-                } catch (IOException ex) {
-                    Logger.getLogger(SonarQubeHelper.class.getName()).log(Level.SEVERE, null, ex);
-                }
+        Platform.runLater(() -> {
+            try {
+                pHandler.setNewPrevProject(path);
+                mainController.setChoiceBoxModel(getPrevProjectProperties());
+            } catch (IOException ex) {
+                Logger.getLogger(SonarQubeHelper.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
     }
@@ -282,11 +256,6 @@ public class SonarQubeHelper extends Application {
      * Lets the method 'updateServerConnection' (in ControllerMain) run on the JavaFX-thread
      */
     public void setServerConnectionOn() {
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                mainController.updateServerConnection(true);
-            }
-        });
+        Platform.runLater(() -> mainController.updateServerConnection(true));
     }
 }
