@@ -32,7 +32,7 @@ public class SonarQubeHelper extends Application {
     private PropertyHandler pHandler;
     private Thread procedure;
     private Alert info;
-    private final static int portNumber = 9000;
+    private static final int PORTNUMBER = 9000;
     
     @Override
     public void start(Stage stage) throws Exception {
@@ -226,7 +226,7 @@ public class SonarQubeHelper extends Application {
     public boolean checkPortAvailable() {
         ServerSocket socket = null;
         try {
-            socket = new ServerSocket(portNumber);
+            socket = new ServerSocket(PORTNUMBER);
             socket.setReuseAddress(true);
             return true;
         } catch (IOException e) {
