@@ -7,6 +7,12 @@ package enums;
 public enum OpSystem {
     WIN64, WIN32, LIN64, LIN32, MAC64;
     
+    /**
+     * Converts a enum value to a corresponding String value.
+     * 
+     * @param system
+     * @return String
+     */
     public String getSystemValue(OpSystem system) {
         switch(system) {
             case WIN64:
@@ -22,6 +28,12 @@ public enum OpSystem {
         }
     }
     
+    /**
+     * Converts a String value to a corresponding enum value.
+     * 
+     * @param systemValue
+     * @return OpSystem
+     */
     public static OpSystem getEnumValue(String systemValue) {
         switch(systemValue) {
             case "windows-x86-64":
@@ -37,6 +49,12 @@ public enum OpSystem {
         }
     }
     
+    /**
+     * Converts a enum value to a corresponding file path.
+     * 
+     * @param system
+     * @return String
+     */
     public String getFilePath(OpSystem system) {
         switch(system) {
             case WIN64:
