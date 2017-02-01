@@ -119,7 +119,63 @@ public class controller_main implements Initializable {
         txtAdd.setText(path);
         setEventHandlers();
         
+        //Update the server connection status visually in the GUI
         updateServerConnection(!sqHelper.checkPortAvailable());
+    }
+    
+    /**
+     * Sets all the keys from the properties in a choice box.
+     * According to the last used project path, a selection is made from
+     * one of the choicebox items.
+     * @param props 
+     */
+    public void setChoiceBoxModel(Properties props) {
+        int index = -1;
+        int indexCounter = 0;
+        ArrayList<String> items = new ArrayList();
+        Enumeration e = props.propertyNames();
+        
+        //All propertykeys are added to a temp list as String values
+        //While this happens, a counter is running for each iteration.
+        //When the project path is the same as the property value of iterated key,
+        //the current index is saved.
+        while (e.hasMoreElements()) {
+            String key = (String) e.nextElement();
+            items.add(key);
+            if (!path.isEmpty()) {
+                if (path.equals(props.getProperty(key))) {
+                    index = indexCounter;
+                }
+            }
+            indexCounter++;
+        }
+        
+        //Set the choicebox items
+        cbProjects.setItems(FXCollections.observableArrayList(items));
+        
+        //Set the selected item with the saved index
+        if (index != -1) {
+            cbProjects.getSelectionModel().select(index);
+        }
+    }
+    
+    /**
+     * Updates the GUI.
+     * If there is a connection with the SonarQube server, it turns green with a corresponding text.
+     * If there is no connection with te SonarQube server, it turns red with a corresponding text.
+     * @param c 
+     */
+    public void updateServerConnection(boolean c) {
+        if (connected != c) {
+            if (c) {
+                lblServerConnection.setText("Connected to server");
+                circleServerConnection.setFill(Color.web("#85BB43"));
+            } else {
+                lblServerConnection.setText("No server connection");
+                circleServerConnection.setFill(Color.web("#D8ACE1"));
+            }
+            connected = c;
+        }
     }
     
     /**
@@ -146,39 +202,5 @@ public class controller_main implements Initializable {
                     }
                 }
             });
-    }
-    
-    public void setChoiceBoxModel(Properties props) {
-        int index = -1;
-        int indexCounter = 0;
-        ArrayList<String> items = new ArrayList();
-        Enumeration e = props.propertyNames();
-        while (e.hasMoreElements()) {
-            String key = (String) e.nextElement();
-            items.add(key);
-            if (!path.isEmpty()) {
-                if (path.equals(props.getProperty(key))) {
-                    index = indexCounter;
-                }
-            }
-            indexCounter++;
-        }
-        cbProjects.setItems(FXCollections.observableArrayList(items));
-        if (index != -1) {
-            cbProjects.getSelectionModel().select(index);
-        }
-    }
-    
-    public void updateServerConnection(boolean c) {
-        if (connected != c) {
-            if (c) {
-                lblServerConnection.setText("Connected to server");
-                circleServerConnection.setFill(Color.web("#85BB43"));
-            } else {
-                lblServerConnection.setText("No server connection");
-                circleServerConnection.setFill(Color.web("#D8ACE1"));
-            }
-            connected = c;
-        }
     }
 }

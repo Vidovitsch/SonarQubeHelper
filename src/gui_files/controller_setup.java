@@ -123,6 +123,9 @@ public class controller_setup implements Initializable {
         setEventHandlers();
     }
     
+    /**
+     * Sets the items in the choicebox meant for listing operating systems.
+     */
     private void fillChoiceBoxOS() {
         int index = 0;
         ArrayList<String> items = new ArrayList();

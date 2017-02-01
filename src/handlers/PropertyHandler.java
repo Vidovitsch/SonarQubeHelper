@@ -68,6 +68,12 @@ public class PropertyHandler {
         return path;
     }
     
+    /**
+     * Gets the chosen operating system set in the settings.
+     * 
+     * @return OpSystem
+     * @throws IOException 
+     */
     public OpSystem getSystemFromPropertyFile() throws IOException {
         OpSystem system = null;
         Properties sq_helper = new Properties();
@@ -78,6 +84,12 @@ public class PropertyHandler {
         return system;
     }
     
+    /**
+     * Gets the default project source path set in the settings.
+     * 
+     * @return Source path (String)
+     * @throws IOException 
+     */
     public String getSourceFromPropertyFile() throws IOException {
         String src;
         Properties sq_helper = new Properties();
@@ -106,6 +118,12 @@ public class PropertyHandler {
         }
     }
     
+    /**
+     * Saves the operating system set in the settings.
+     * 
+     * @param system
+     * @throws IOException 
+     */
     public void savePropertyFileSystem(OpSystem system) throws IOException {
         Properties sq_helper = new Properties();
         try (FileInputStream input = new FileInputStream(propertyFileName)) {
@@ -117,6 +135,12 @@ public class PropertyHandler {
         }
     }
     
+    /**
+     * Saves the default project resource path set in the settings.
+     * 
+     * @param src
+     * @throws IOException 
+     */
     public void savePropertyFileSource(String src) throws IOException {
         Properties sq_helper = new Properties();
         try (FileInputStream input = new FileInputStream(propertyFileName)) {
@@ -185,6 +209,12 @@ public class PropertyHandler {
         }
     }
     
+    /**
+     * Gets the properties of previous scanned projects.
+     * 
+     * @return Properties
+     * @throws IOException 
+     */
     public Properties getPrevProjectProperties() throws IOException {
         //Checking if file exists; if not, make a new one
         checkForPrevProjectFile();
@@ -196,6 +226,12 @@ public class PropertyHandler {
         return prevProjects;
     }
     
+    /**
+     * Saves a new scanned project in a properties file.
+     * 
+     * @param path
+     * @throws IOException 
+     */
     public void setNewPrevProject(String path) throws IOException {
         String projectName = getProjectName(path);
         Properties prevProjects = new Properties();
@@ -210,6 +246,12 @@ public class PropertyHandler {
         }
     }
     
+    /**
+     * Checks if the file 'prev_projects.properties' already exists.
+     * If not, create a new one.
+     * 
+     * @throws IOException 
+     */
     private void checkForPrevProjectFile() throws IOException {
         File propertyFile = new File(propertyPrevProjects);
         if (!propertyFile.exists()) {

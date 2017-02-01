@@ -19,7 +19,15 @@ public class StartSQServer implements Runnable {
     private String projectRoot;
     private OpSystem system;
     
-    public  StartSQServer(sonarqube_helper sqHelper, String sqRoot, String projectRoot, OpSystem system) {
+    /**
+     * A Runnable for starting the SonarQube server.
+     * 
+     * @param sqHelper
+     * @param sqRoot
+     * @param projectRoot
+     * @param system 
+     */
+    public StartSQServer(sonarqube_helper sqHelper, String sqRoot, String projectRoot, OpSystem system) {
         this.sqHelper = sqHelper;
         this.sqRoot = sqRoot;
         this.projectRoot = projectRoot;
@@ -54,11 +62,18 @@ public class StartSQServer implements Runnable {
         }
     }
     
+    /**
+     * Starts timer that checks the server connectivity every second.
+     */
     private void startConnectionCheck() {
         Timer connectionTimer = new Timer();
         connectionTimer.schedule(new connectionTask(connectionTimer), 0, 1000);
     }
     
+    /**
+     * A task that checks the server connectivity.
+     * If a connection is no longer available, the SonarQube scanner is activated.
+     */
     private class connectionTask extends TimerTask {
         private Timer timer;
         

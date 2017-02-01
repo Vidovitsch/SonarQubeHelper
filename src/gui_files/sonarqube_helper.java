@@ -243,6 +243,11 @@ public class sonarqube_helper extends Application {
         return false;
     }
     
+    /**
+     * Gets the properies of previous scanned projects.
+     * 
+     * @return Properties
+     */
     public Properties getPrevProjectProperties() {
         try {
             return pHandler.getPrevProjectProperties();
@@ -254,6 +259,11 @@ public class sonarqube_helper extends Application {
         return null;
     }
     
+    /**
+     * Creates a new fast-scan project after scanned successfully.
+     * 
+     * @param path 
+     */
     public void setNewPrevProject(String path) {
         Platform.runLater(new Runnable() {
             @Override
@@ -268,6 +278,9 @@ public class sonarqube_helper extends Application {
         });
     }
     
+    /**
+     * Lets the method 'updateServerConnection' (in controller_main) run on the JavaFX-thread
+     */
     public void setServerConnectionOn() {
         Platform.runLater(new Runnable() {
             @Override

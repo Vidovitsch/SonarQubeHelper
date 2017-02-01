@@ -1,5 +1,5 @@
 projectKey=SonarQubeHelper
 serverUrl=http://localhost:9000
 dashboardUrl=http://localhost:9000/dashboard/index/SonarQubeHelper
-ceTaskId=AVn6rEdrDcxDxp3E37y7
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AVn6rEdrDcxDxp3E37y7
+ceTaskId=AVn7GO5TDcxDxp3E37y9
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AVn7GO5TDcxDxp3E37y9
