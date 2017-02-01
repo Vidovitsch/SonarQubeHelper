@@ -19,7 +19,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import models.StartSQServer;
+import models.ServerTask;
 
 /**
  *
@@ -129,7 +129,7 @@ public class SonarQubeHelper extends Application {
             pHandler.savePropertyFileRoot(path);
             pHandler.createSQPropertyFile(path);
             if (checkPortAvailable()) {
-                (new Thread(new StartSQServer(this, pHandler.getSQRootsFromPropertyFile()[0], path,
+                (new Thread(new ServerTask(this, pHandler.getSQRootsFromPropertyFile()[0], path,
                         pHandler.getSystemFromPropertyFile()))).start();
             }
             else {

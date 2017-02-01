@@ -28,7 +28,6 @@ public class ControllerMain implements Initializable {
 
     private SonarQubeHelper sqHelper;
     private String path;
-    private boolean connected = false;
     
     @FXML
     private ChoiceBox cbProjects;
@@ -160,15 +159,12 @@ public class ControllerMain implements Initializable {
      * @param c 
      */
     public void updateServerConnection(boolean c) {
-        if (connected != c) {
-            if (c) {
-                lblServerConnection.setText("Connected to server");
-                circleServerConnection.setFill(Color.web("#85BB43"));
-            } else {
-                lblServerConnection.setText("No server connection");
-                circleServerConnection.setFill(Color.web("#D8ACE1"));
-            }
-            connected = c;
+        if (c) {
+            lblServerConnection.setText("Connected to server");
+            circleServerConnection.setFill(Color.web("#85BB43"));
+        } else {
+            lblServerConnection.setText("No server connection");
+            circleServerConnection.setFill(Color.web("#D4333F"));
         }
     }
     

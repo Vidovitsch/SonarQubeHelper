@@ -51,8 +51,6 @@ public class ScannerTask implements Runnable {
      */
     private boolean startSonarScanner() {
         try {
-            int infoCounter = 0;
-            
             sqHelper.showInfoDialog("Scanning project", "This can take up to a minute (depends on project size)");
             
             //Creating the correct command and executes it
@@ -62,24 +60,14 @@ public class ScannerTask implements Runnable {
             
             //Creating a reader to make sure the command is executed properly before proceding
             BufferedReader reader = new BufferedReader(new InputStreamReader(scanProject.getInputStream()));
-            String line = "";
+            String line;
             while ((line = reader.readLine()) != null) {
-                System.out.println(line);
                 if (line.contains("FAILURE")) {
                     return false;
-                } else if (line.contains("INFO") && infoCounter == 0) {
-                    infoCounter++;
                 }
             }
             
-            //Check the amount of lines containing 'INFO'.
-            //If its 0 means that there has been an exception thrown while sanning the project
-            if (infoCounter == 0) {
-                return false;
-            }
-            
             //Set new previous scanned project
-            
             sqHelper.setNewPrevProject(projectPath);
             
             //Cancels the dialog shown

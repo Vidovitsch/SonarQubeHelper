@@ -12,7 +12,7 @@ import java.util.logging.Logger;
  *
  * @author David
  */
-public class StartSQServer implements Runnable {
+public class ServerTask implements Runnable {
 
     private SonarQubeHelper sqHelper;
     private String sqRoot;
@@ -27,7 +27,7 @@ public class StartSQServer implements Runnable {
      * @param projectRoot
      * @param system 
      */
-    public StartSQServer(SonarQubeHelper sqHelper, String sqRoot, String projectRoot, opsystem system) {
+    public ServerTask(SonarQubeHelper sqHelper, String sqRoot, String projectRoot, opsystem system) {
         this.sqHelper = sqHelper;
         this.sqRoot = sqRoot;
         this.projectRoot = projectRoot;
@@ -67,17 +67,17 @@ public class StartSQServer implements Runnable {
      */
     private void startConnectionCheck() {
         Timer connectionTimer = new Timer();
-        connectionTimer.schedule(new connectionTask(connectionTimer), 0, 1000);
+        connectionTimer.schedule(new ConnectionTask(connectionTimer), 0, 1000);
     }
     
     /**
      * A task that checks the server connectivity.
      * If a connection is no longer available, the SonarQube scanner is activated.
      */
-    private class connectionTask extends TimerTask {
+    private class ConnectionTask extends TimerTask {
         private Timer timer;
         
-        public connectionTask(Timer timer) {
+        public ConnectionTask(Timer timer) {
             this.timer = timer;
         }
         

@@ -27,7 +27,7 @@
       <Button fx:id="btnScan" layoutX="248.0" layoutY="155.0" mnemonicParsing="false" onAction="#start" prefHeight="25.0" prefWidth="87.0" text="Start Scan" />
       <Button fx:id="btnSettings" layoutX="152.0" layoutY="155.0" mnemonicParsing="false" onAction="#openSetupScreen" prefHeight="25.0" prefWidth="87.0" text="Settings" />
       <ChoiceBox fx:id="cbProjects" layoutX="335.0" layoutY="120.0" prefHeight="25.0" prefWidth="135.0" />
-      <Circle fx:id="circleServerConnection" fill="#85bb43" layoutX="14.0" layoutY="205.0" radius="5.0" stroke="#85bb43" strokeType="INSIDE" />
+      <Circle fx:id="circleServerConnection" fill="#85bb43" layoutX="14.0" layoutY="205.0" radius="5.0" stroke="#85bb43" strokeType="INSIDE" strokeWidth="0.0" />
       <Label fx:id="lblServerConnection" layoutX="22.0" layoutY="194.5" prefHeight="20.0" prefWidth="114.0" text="No server connection" />
    </children>
 </AnchorPane>
