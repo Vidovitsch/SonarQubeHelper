@@ -3,15 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/David/Documents/Projects/Java/SonarQubeHelper/src/guiFiles/controllermain.java</file>
-            <file>file:/C:/Users/David/Documents/Projects/Java/SonarQubeHelper/src/models/startsqserver.java</file>
-            <file>file:/C:/Users/David/Documents/Projects/Java/SonarQubeHelper/src/handlers/propertyhandler.java</file>
-            <file>file:/C:/Users/David/Documents/Projects/Java/SonarQubeHelper/src/guiFiles/FXMLMain.fxml</file>
-            <file>file:/C:/Users/David/Documents/Projects/Java/SonarQubeHelper/src/models/scannertask.java</file>
-            <file>file:/C:/Users/David/Documents/Projects/Java/SonarQubeHelper/src/enums/opsystem.java</file>
-            <file>file:/C:/Users/David/Documents/Projects/Java/SonarQubeHelper/src/guiFiles/sonarqubehelper.java</file>
-            <file>file:/C:/Users/David/Documents/Projects/Java/SonarQubeHelper/src/guiFiles/controllersetup.java</file>
-            <file>file:/C:/Users/David/Documents/Projects/Java/SonarQubeHelper/src/guiFiles/FXMLSetup.fxml</file>
+            <file>file:/C:/Users/David/Documents/Projects/Java/SonarQubeHelper/src/guiFiles/SonarQubeHelper.java</file>
+            <file>file:/C:/Users/David/Documents/Projects/Java/SonarQubeHelper/src/models/StartSQServer.java</file>
+            <file>file:/C:/Users/David/Documents/Projects/Java/SonarQubeHelper/src/models/ScannerTask.java</file>
         </group>
     </open-files>
 </project-private>
