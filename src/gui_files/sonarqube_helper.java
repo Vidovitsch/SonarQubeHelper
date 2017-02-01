@@ -267,4 +267,13 @@ public class sonarqube_helper extends Application {
             }
         });
     }
+    
+    public void setServerConnectionOn() {
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                mainController.updateServerConnection(true);
+            }
+        });
+    }
 }

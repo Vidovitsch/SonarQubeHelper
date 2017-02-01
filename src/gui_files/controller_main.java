@@ -17,6 +17,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 /**
  * FXML Controller class
@@ -27,18 +29,22 @@ public class controller_main implements Initializable {
 
     private sonarqube_helper sqHelper;
     private String path;
+    private boolean connected = false;
     
     @FXML
     private ChoiceBox cbProjects;
     
     @FXML
-    private Label lblHeader, lblProjectRoot;
+    private Label lblServerConnection, lblHeader, lblProjectRoot;
     
     @FXML
     private Button btnAdd, btnSettings, btnScan;
     
     @FXML
     private TextField txtAdd;
+    
+    @FXML
+    private Circle circleServerConnection;
     
     /**
      * Starts the scanner after validating the fields.
@@ -112,6 +118,8 @@ public class controller_main implements Initializable {
         //Give value to the field in the GUI
         txtAdd.setText(path);
         setEventHandlers();
+        
+        updateServerConnection(!sqHelper.checkPortAvailable());
     }
     
     /**
@@ -158,6 +166,19 @@ public class controller_main implements Initializable {
         cbProjects.setItems(FXCollections.observableArrayList(items));
         if (index != -1) {
             cbProjects.getSelectionModel().select(index);
+        }
+    }
+    
+    public void updateServerConnection(boolean c) {
+        if (connected != c) {
+            if (c) {
+                lblServerConnection.setText("Connected to server");
+                circleServerConnection.setFill(Color.web("#85BB43"));
+            } else {
+                lblServerConnection.setText("No server connection");
+                circleServerConnection.setFill(Color.web("#D8ACE1"));
+            }
+            connected = c;
         }
     }
 }

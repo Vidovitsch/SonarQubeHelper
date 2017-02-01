@@ -71,6 +71,7 @@ public class StartSQServer implements Runnable {
             if(!sqHelper.checkPortAvailable()) {
                 sqHelper.cancelInfoDialog();
                 sqHelper.startScanning(projectRoot);
+                sqHelper.setServerConnectionOn();
                 timer.cancel();
             }
         }
