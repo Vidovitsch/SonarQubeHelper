@@ -1,7 +1,7 @@
 package models;
 
 import enums.OpSystem;
-import gui_files.sonarqube_helper;
+import guiFiles.sonarqubeHelper;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  */
 public class StartSQServer implements Runnable {
 
-    private sonarqube_helper sqHelper;
+    private sonarqubeHelper sqHelper;
     private String sqRoot;
     private String projectRoot;
     private OpSystem system;
@@ -27,7 +27,7 @@ public class StartSQServer implements Runnable {
      * @param projectRoot
      * @param system 
      */
-    public StartSQServer(sonarqube_helper sqHelper, String sqRoot, String projectRoot, OpSystem system) {
+    public StartSQServer(sonarqubeHelper sqHelper, String sqRoot, String projectRoot, OpSystem system) {
         this.sqHelper = sqHelper;
         this.sqRoot = sqRoot;
         this.projectRoot = projectRoot;

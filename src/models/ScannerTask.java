@@ -1,6 +1,6 @@
 package models;
 
-import gui_files.sonarqube_helper;
+import guiFiles.sonarqubeHelper;
 import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,7 +18,7 @@ public class ScannerTask implements Runnable {
 
     private String sqScanner;
     private String projectPath;
-    private sonarqube_helper sqHelper;
+    private sonarqubeHelper sqHelper;
     
     /**
      * This task runs when the user pressed the 'scan' button.
@@ -28,7 +28,7 @@ public class ScannerTask implements Runnable {
      * @param sqScanner
      * @param projectPath 
      */
-    public ScannerTask(sonarqube_helper sqHelper, String sqScanner, String projectPath) {
+    public ScannerTask(sonarqubeHelper sqHelper, String sqScanner, String projectPath) {
         this.sqScanner = sqScanner;
         this.projectPath = projectPath;
         this.sqHelper = sqHelper;

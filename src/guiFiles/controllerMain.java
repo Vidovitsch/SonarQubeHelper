@@ -1,4 +1,4 @@
-package gui_files;
+package guiFiles;
 
 import java.io.IOException;
 import java.net.URL;
@@ -25,9 +25,9 @@ import javafx.scene.shape.Circle;
  *
  * @author David
  */
-public class controller_main implements Initializable {
+public class controllerMain implements Initializable {
 
-    private sonarqube_helper sqHelper;
+    private sonarqubeHelper sqHelper;
     private String path;
     private boolean connected = false;
     
@@ -77,7 +77,7 @@ public class controller_main implements Initializable {
         try {
             sqHelper.openSetupScreen();
         } catch (IOException ex) {
-            Logger.getLogger(controller_main.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(controllerMain.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -93,11 +93,11 @@ public class controller_main implements Initializable {
     }    
     
     /**
-     * Sets an instance of a sonarqube_helper object.
+     * Sets an instance of a sonarqubeHelper object.
      * 
      * @param sqHelper 
      */
-    public void setSQHelper(sonarqube_helper sqHelper) {
+    public void setSQHelper(sonarqubeHelper sqHelper) {
         this.sqHelper = sqHelper;
     }
     

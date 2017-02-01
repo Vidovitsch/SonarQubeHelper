@@ -1,4 +1,4 @@
-package gui_files;
+package guiFiles;
 
 import enums.OpSystem;
 import handlers.PropertyHandler;
@@ -25,10 +25,10 @@ import models.StartSQServer;
  *
  * @author David
  */
-public class sonarqube_helper extends Application {
+public class sonarqubeHelper extends Application {
     
     private Stage stage;
-    private controller_main mainController;
+    private controllerMain mainController;
     private PropertyHandler pHandler;
     private Thread procedure;
     private Alert info;
@@ -66,7 +66,7 @@ public class sonarqube_helper extends Application {
         stage.setScene(scene);
         stage.setTitle("Setup");
         stage.show();
-        controller_setup setupController = (controller_setup) loader.getController();
+        controllerSetup setupController = (controllerSetup) loader.getController();
         setupController.setSQHelper(this);
         setupController.setValues(pHandler.getSQRootsFromPropertyFile(), pHandler.getSystemFromPropertyFile(),
                 pHandler.getSourceFromPropertyFile());
@@ -84,7 +84,7 @@ public class sonarqube_helper extends Application {
         stage.setScene(scene);
         stage.setTitle("Main");
         stage.show();
-        mainController = (controller_main) loader.getController();
+        mainController = (controllerMain) loader.getController();
         mainController.setSQHelper(this);
         mainController.setValues(pHandler.getProjectRootFromPropertyFile());
     }
@@ -115,7 +115,7 @@ public class sonarqube_helper extends Application {
             pHandler.savePropertyFileSystem(system);
             pHandler.savePropertyFileSource(src);
         } catch (IOException ex) {
-            Logger.getLogger(sonarqube_helper.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(sonarqubeHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -140,7 +140,7 @@ public class sonarqube_helper extends Application {
                 procedure.start();
             }
         } catch (IOException ex) {
-            Logger.getLogger(sonarqube_helper.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(sonarqubeHelper.class.getName()).log(Level.SEVERE, null, ex);
             showErrorDialog("Can't scan this project");
         }
     }
@@ -230,13 +230,13 @@ public class sonarqube_helper extends Application {
             socket.setReuseAddress(true);
             return true;
         } catch (IOException e) {
-            Logger.getLogger(sonarqube_helper.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(sonarqubeHelper.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             if (socket != null) {
                 try {
                     socket.close();
                 } catch (IOException e) {
-                    Logger.getLogger(sonarqube_helper.class.getName()).log(Level.SEVERE, null, e);
+                    Logger.getLogger(sonarqubeHelper.class.getName()).log(Level.SEVERE, null, e);
                 }
             }
         }
@@ -252,7 +252,7 @@ public class sonarqube_helper extends Application {
         try {
             return pHandler.getPrevProjectProperties();
         } catch (IOException ex) {
-            Logger.getLogger(sonarqube_helper.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(sonarqubeHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         //Won't happen
@@ -272,14 +272,14 @@ public class sonarqube_helper extends Application {
                     pHandler.setNewPrevProject(path);
                     mainController.setChoiceBoxModel(getPrevProjectProperties());
                 } catch (IOException ex) {
-                    Logger.getLogger(sonarqube_helper.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(sonarqubeHelper.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
     }
     
     /**
-     * Lets the method 'updateServerConnection' (in controller_main) run on the JavaFX-thread
+     * Lets the method 'updateServerConnection' (in controllerMain) run on the JavaFX-thread
      */
     public void setServerConnectionOn() {
         Platform.runLater(new Runnable() {

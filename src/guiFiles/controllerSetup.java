@@ -1,4 +1,4 @@
-package gui_files;
+package guiFiles;
 
 import enums.OpSystem;
 import java.io.IOException;
@@ -22,9 +22,9 @@ import javafx.scene.control.TextField;
  * 
  * @author David
  */
-public class controller_setup implements Initializable {
+public class controllerSetup implements Initializable {
     
-    private sonarqube_helper sqHelper;
+    private sonarqubeHelper sqHelper;
     private String[] paths;
     private OpSystem system;
     private String src;
@@ -51,7 +51,7 @@ public class controller_setup implements Initializable {
             try {
                 sqHelper.openMainScreen();
             } catch (IOException ex) {
-                Logger.getLogger(controller_setup.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(controllerSetup.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             sqHelper.showWarningDialog("Select both roots before saving");
@@ -92,11 +92,11 @@ public class controller_setup implements Initializable {
     }    
     
     /**
-     * Sets an instance of a sonarqube_helper object.
+     * Sets an instance of a sonarqubeHelper object.
      * 
      * @param sqHelper 
      */
-    public void setSQHelper(sonarqube_helper sqHelper) {
+    public void setSQHelper(sonarqubeHelper sqHelper) {
         this.sqHelper = sqHelper;
     }
     
