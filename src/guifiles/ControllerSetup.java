@@ -12,9 +12,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 /**
@@ -28,23 +26,15 @@ public class ControllerSetup implements Initializable {
     private String[] paths;
     private opsystem system;
     private String src;
-            
-    @FXML
-    private Label lblHeader;
-    private Label lblSQRoot;
-    private Label lblSQScanner;
-    
-    @FXML
-    private Button btnSQRoot;
-    private Button btnSQScanner;
-    private Button btnSave;
     
     @FXML
     private ChoiceBox cbOS;
     
     @FXML
     private TextField txtSQRoot;
+    @FXML
     private TextField txtSQScanner;
+    @FXML
     private TextField txtProjectSource;
     
     /**
@@ -164,14 +154,23 @@ public class ControllerSetup implements Initializable {
      * Sets the eventhandler of the textfields
      */
     private void setEventHandlers() {
-        txtSQRoot.textProperty().addListener((observable, oldValue, newValue) -> {
-            paths[0] = newValue;
+        txtSQRoot.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                paths[0] = newValue;
+            }
         });
-        txtSQScanner.textProperty().addListener((observable, oldValue, newValue) -> {
-            paths[1] = newValue;
+        txtSQScanner.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                paths[1] = newValue;
+            }
         });
-        txtProjectSource.textProperty().addListener((observable, oldValue, newValue) -> {
-            src = newValue;
+        txtProjectSource.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                src = newValue;
+            }
         });
         cbOS.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
                 @Override

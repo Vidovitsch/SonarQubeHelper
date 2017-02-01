@@ -13,7 +13,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -36,13 +35,6 @@ public class ControllerMain implements Initializable {
     
     @FXML
     private Label lblServerConnection;
-    private Label lblHeader;
-    private Label lblProjectRoot;
-    
-    @FXML
-    private Button btnAdd;
-    private Button btnSettings;
-    private Button btnScan;
     
     @FXML
     private TextField txtAdd;
@@ -93,7 +85,7 @@ public class ControllerMain implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        Logger.getLogger(ControllerMain.class.getName()).log(Level.INFO, null, "Initialized");
     }    
     
     /**
@@ -146,10 +138,8 @@ public class ControllerMain implements Initializable {
         while (e.hasMoreElements()) {
             String key = (String) e.nextElement();
             items.add(key);
-            if (!path.isEmpty()) {
-                if (path.equals(props.getProperty(key))) {
-                    index = indexCounter;
-                }
+            if (!path.isEmpty() && path.equals(props.getProperty(key))) {
+                index = indexCounter;
             }
             indexCounter++;
         }
@@ -195,14 +185,17 @@ public class ControllerMain implements Initializable {
      * Sets the eventhandler of the textfields
      */
     private void setEventHandlers() {
-        txtAdd.textProperty().addListener((observable, oldValue, newValue) -> {
-            path = newValue;
+        txtAdd.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                path = newValue;
+            }
         });
         cbProjects.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
                 @Override
-                public void changed(ObservableValue ov,String old_val, String new_val) {
-                    if (new_val != null) {
-                        txtAdd.setText(sqHelper.getPrevProjectProperties().getProperty(new_val));
+                public void changed(ObservableValue ov,String oldVal, String newVal) {
+                    if (newVal != null) {
+                        txtAdd.setText(sqHelper.getPrevProjectProperties().getProperty(newVal));
                     }
                 }
             });
