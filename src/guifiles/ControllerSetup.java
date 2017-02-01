@@ -84,7 +84,7 @@ public class ControllerSetup implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        Logger.getLogger(ControllerMain.class.getName()).log(Level.INFO, null, "Initialized");
     }    
     
     /**
@@ -128,10 +128,8 @@ public class ControllerSetup implements Initializable {
         for (int i = 0; i < opsystem.values().length; i++) {
             opsystem value = opsystem.values()[i];
             items.add(value.getSystemValue(value));
-            if (system != null) {
-                if (system.equals(value)) {
-                    index = i;
-                }
+            if (system != null && system.equals(value)) {
+                index = i;
             }
         }
         cbOS.setItems(FXCollections.observableArrayList(items));
@@ -174,9 +172,9 @@ public class ControllerSetup implements Initializable {
         });
         cbOS.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
                 @Override
-                public void changed(ObservableValue ov,String old_val, String new_val) {
-                    if (new_val != null) {
-                        system = opsystem.getEnumValue(new_val);
+                public void changed(ObservableValue ov,String oldVal, String newVal) {
+                    if (newVal != null) {
+                        system = opsystem.getEnumValue(newVal);
                     }
                 }
             });
